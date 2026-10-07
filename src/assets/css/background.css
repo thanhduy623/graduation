@@ -34,7 +34,7 @@ BACKGROUND ROOT
   background:
     radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.035), transparent 32%),
     radial-gradient(circle at 50% 85%, rgba(15, 45, 90, 0.28), transparent 42%),
-    linear-gradient(180deg, var(--color-navy-900) 0%, var(--color-navy-950) 52%, #02040a 100%);
+    linear-gradient(180deg, var(--color-navy-800) 0%, var(--color-navy-850) 52%, #02040a 100%);
 }
 
 /* ==========================================================================
