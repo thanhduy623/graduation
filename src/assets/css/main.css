@@ -1,0 +1,112 @@
+/* ==========================================================================
+GRADUATION INVITATION — TAILWIND ENTRY
+========================================================================== */
+
+@import './base.css';
+@import './layout.css';
+@import './background.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+GLOBAL TAILWIND FOUNDATION
+========================================================================== */
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+/* ==========================================================================
+BRAND UTILITIES
+========================================================================== */
+
+@layer utilities {
+  .text-gold-gradient {
+    background: var(--gradient-gold);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gold-metallic {
+    background: var(--gradient-gold-metallic);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-gold-gradient {
+    background: var(--gradient-gold);
+  }
+
+  .bg-gold-metallic {
+    background: var(--gradient-gold-metallic);
+  }
+
+  .bg-navy-gradient {
+    background: var(--gradient-navy);
+  }
+
+  .glass-dark {
+    background: rgba(5, 9, 19, 0.58);
+    border: 1px solid var(--color-border);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-gold {
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid var(--color-gold-border);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .safe-top {
+    padding-top: var(--safe-top);
+  }
+
+  .safe-right {
+    padding-right: var(--safe-right);
+  }
+
+  .safe-bottom {
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .safe-left {
+    padding-left: var(--safe-left);
+  }
+
+  .min-h-screen-safe {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  .h-screen-safe {
+    height: 100svh;
+    height: 100dvh;
+  }
+}
+
+/* ==========================================================================
+GLOBAL FORM / INTERACTION
+========================================================================== */
+
+@layer components {
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .cinematic-transition {
+    transition:
+      opacity var(--duration-cinematic) var(--ease-smooth),
+      transform var(--duration-cinematic) var(--ease-smooth);
+  }
+}

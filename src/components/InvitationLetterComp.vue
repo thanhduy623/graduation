@@ -1,0 +1,801 @@
+<template>
+  <article class="invitation-letter" aria-labelledby="invitation-title">
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="invitation-header">
+      <h1 id="invitation-title" class="invitation-title">
+        {{ event.title }}
+      </h1>
+
+      <div class="invitation-ornament" aria-hidden="true">
+        <span></span>
+        <i></i>
+        <span></span>
+      </div>
+    </header>
+
+    <!-- =========================================
+         INVITATION
+    ========================================== -->
+
+    <div v-if="guest" class="invitation-body">
+      <p class="invitation-opening">Thân mời</p>
+
+      <p class="invitation-name capitalize">
+        <span v-show="guest.show">{{ guest.salutation }}</span>
+        {{ guest.name }}
+      </p>
+
+      <p class="invitation-text italic">
+        <span>đến tham dự buổi</span>
+        <span> Lễ tốt nghiệp của </span>
+        <span> {{ guest.pronoun }} </span>
+      </p>
+
+      <!-- =======================================
+           EVENT INFORMATION
+      ======================================== -->
+
+      <div class="event-info">
+        <!-- Thời gian -->
+        <div class="event-column">
+          <p class="event-label">Thời gian</p>
+
+          <p class="event-value event-value--large">
+            {{ guest.time }}
+          </p>
+
+          <p class="event-value font-medium">
+            {{ event.date }}
+          </p>
+
+          <p class="event-value italic">( {{ event.weekday }} )</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="event-divider" aria-hidden="true"></div>
+
+        <!-- Địa điểm -->
+        <div class="event-column">
+          <p class="event-label">Địa điểm</p>
+
+          <p class="event-value event-value--large">
+            {{ guest.zone }}
+          </p>
+
+          <a
+            href="https://maps.app.goo.gl/rDUpeLEy16sVJ1qK6"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <p class="event-value">
+              {{ event.venue }}
+            </p>
+
+            <p class="event-value italic">( {{ event.address }} )</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- =======================================
+           CLOSING
+      ======================================== -->
+
+      <p class="invitation-closing">
+        <span>Sự hiện diện của {{ guest.salutation }}</span>
+        <span> là niềm vinh dự lớn đối với {{ guest.pronoun }}</span>
+      </p>
+    </div>
+
+    <!-- =========================================
+         FALLBACK
+    ========================================== -->
+
+    <div v-else class="invitation-empty">
+      <p>Không tìm thấy thông tin khách mời.</p>
+    </div>
+
+    <!-- =========================================
+         FOOTER ORNAMENT
+    ========================================== -->
+
+    <footer class="invitation-footer" aria-hidden="true">
+      <span></span>
+      <span class="invitation-footer-diamond"></span>
+      <span></span>
+    </footer>
+  </article>
+</template>
+
+<script setup>
+import { EVENT_BASE } from '@/data/data'
+import { useGuest } from '@/composables/useGuest'
+
+const event = EVENT_BASE
+
+const { getCurrentGuest } = useGuest()
+
+const guest = getCurrentGuest()
+</script>
+
+<style scoped>
+/* =========================================================
+   INVITATION LETTER
+   ---------------------------------------------------------
+   IMPORTANT:
+   - Không sử dụng vw
+   - Không sử dụng vh
+   - Không sử dụng clamp()
+   - Không thay đổi typography theo breakpoint
+   - Mobile và desktop dùng cùng một kích thước
+========================================================= */
+
+.invitation-letter {
+  position: relative;
+
+  width: 100%;
+  max-width: 560px;
+
+  padding: 56px 32px;
+
+  color: var(--color-text);
+
+  text-align: center;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.invitation-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+.invitation-title {
+  width: 420px;
+  max-width: 100%;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+
+  letter-spacing: 0.4px;
+  line-height: 24px;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+/* =========================================================
+   HEADER ORNAMENT
+========================================================= */
+
+.invitation-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 22px;
+
+  height: 7px;
+}
+
+.invitation-ornament span {
+  display: block;
+
+  width: 34px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--color-gold-600));
+}
+
+.invitation-ornament span:last-child {
+  background: linear-gradient(90deg, var(--color-gold-600), transparent);
+}
+
+.invitation-ornament i {
+  display: block;
+
+  width: 5px;
+  height: 5px;
+
+  border: 1px solid var(--color-gold-400);
+
+  transform: rotate(45deg);
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.invitation-body {
+  width: 100%;
+
+  margin-top: 56px;
+}
+
+/* =========================================================
+   OPENING
+========================================================= */
+
+.invitation-opening {
+  color: var(--color-slate-300);
+
+  font-family: var(--font-signature);
+
+  font-size: 36px;
+  font-weight: 600;
+
+  line-height: 38px;
+
+  text-align: center;
+}
+
+/* =========================================================
+   GUEST NAME
+========================================================= */
+
+.invitation-name {
+  width: 100%;
+
+  margin-top: 10px;
+
+  /*
+   * Metallic Gold
+   * Ánh vàng sáng ở giữa, vàng champagne ở hai đầu.
+   */
+  background: linear-gradient(
+    105deg,
+    #8f6c2c 0%,
+    #c59b45 16%,
+    #f3d982 32%,
+    #fff3b0 45%,
+    #d4af37 58%,
+    #f5df8a 74%,
+    #b48a3c 88%,
+    #806128 100%
+  );
+
+  background-size: 200% auto;
+  background-position: 0% 50%;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 1000;
+
+  letter-spacing: 0.8px;
+  line-height: 50px;
+
+  text-align: center;
+
+  text-wrap: balance;
+
+  /*
+   * Glow rất nhẹ để chữ tách khỏi nền navy.
+   */
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.18))
+    drop-shadow(0 0 18px rgba(212, 175, 55, 0.08));
+
+  animation: invitationNameShimmer 7s ease-in-out infinite;
+}
+
+/* =========================================================
+   METALLIC GOLD SHIMMER
+========================================================= */
+
+@keyframes invitationNameShimmer {
+  0% {
+    background-position: 0% 50%;
+
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.16))
+      drop-shadow(0 0 18px rgba(212, 175, 55, 0.06));
+  }
+
+  50% {
+    background-position: 100% 50%;
+
+    filter: drop-shadow(0 0 7px rgba(243, 217, 130, 0.24))
+      drop-shadow(0 0 24px rgba(212, 175, 55, 0.1));
+  }
+
+  100% {
+    background-position: 0% 50%;
+
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.16))
+      drop-shadow(0 0 18px rgba(212, 175, 55, 0.06));
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .invitation-name {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}
+
+/* =========================================================
+   INVITATION DESCRIPTION
+========================================================= */
+
+.invitation-text {
+  width: 400px;
+  max-width: 100%;
+
+  margin: 18px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+
+  line-height: 34px;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+/* =========================================================
+   EVENT INFORMATION
+   ---------------------------------------------------------
+   Layout:
+   THỜI GIAN : ĐỊA ĐIỂM
+       1     :    2
+
+   time / zone = primary
+   date / venue / address = secondary
+========================================================= */
+
+.event-info {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: 2fr 1px 5fr;
+
+  width: 361px;
+  padding: 16px 0;
+  margin: 56px auto 0;
+
+  align-items: stretch;
+}
+
+/* =========================================================
+   ARTISTIC BORDER
+   ---------------------------------------------------------
+   Không dùng border-box thông thường.
+   Tạo khung bằng pseudo-element để có thể fade
+   và tạo cảm giác editorial / invitation.
+========================================================= */
+
+.event-info::before {
+  content: '';
+
+  position: absolute;
+
+  inset: -16px -18px;
+
+  pointer-events: none;
+
+  border-top: 1px solid rgba(212, 175, 55, 0.28);
+
+  border-bottom: 1px solid rgba(212, 175, 55, 0.28);
+
+  opacity: 0.8;
+}
+
+/* =========================================================
+   CORNER ORNAMENT
+========================================================= */
+
+.event-info::after {
+  content: '';
+
+  position: absolute;
+
+  inset: -19px -21px;
+
+  pointer-events: none;
+
+  border-radius: 2px;
+
+  opacity: 0.65;
+}
+
+/* =========================================================
+   EVENT COLUMN
+========================================================= */
+
+.event-column {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-width: 0;
+
+  text-align: center;
+}
+
+/* =========================================================
+   EVENT LABEL
+   ---------------------------------------------------------
+   Chỉ là heading nhỏ.
+   Không cạnh tranh với time / zone.
+========================================================= */
+
+.event-label {
+  width: 100%;
+
+  margin: 0 0 13px;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 2px;
+  line-height: 13px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   PRIMARY EVENT VALUE
+   ---------------------------------------------------------
+   Áp dụng cho:
+   - guest.time
+   - guest.zone
+========================================================= */
+
+.event-value--large {
+  width: 100%;
+
+  margin: 0;
+
+  color: var(--color-white);
+
+  font-family: var(--font-serif);
+
+  /*
+   * Hai thông tin quan trọng nhất.
+   */
+  font-size: 24px;
+  font-weight: 500;
+
+  letter-spacing: 0.3px;
+  line-height: 30px;
+
+  text-align: center;
+
+  text-wrap: balance;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.08);
+}
+
+/* =========================================================
+   TIME SPECIAL
+   ---------------------------------------------------------
+   Time nằm ở cột nhỏ nên ưu tiên sự rõ ràng.
+========================================================= */
+
+.event-column:first-child .event-value--large {
+  color: var(--color-gold-light);
+
+  font-size: 26px;
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
+}
+
+/* =========================================================
+   ZONE SPECIAL
+   ---------------------------------------------------------
+   Zone là thông tin primary thứ hai.
+========================================================= */
+
+.event-column:last-child .event-value--large {
+  color: var(--color-gold-light);
+
+  font-size: 26px;
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
+}
+
+/* =========================================================
+   SECONDARY EVENT VALUE
+   ---------------------------------------------------------
+   Áp dụng cho:
+   - date
+   - venue
+   - address
+========================================================= */
+
+.event-value {
+  width: 100%;
+  max-width: 210px;
+
+  margin: 5px 0 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  line-height: 20px;
+
+  text-align: center;
+
+  text-wrap: balance;
+
+  overflow-wrap: break-word;
+}
+
+/* =========================================================
+   REMOVE OLD MUTED BEHAVIOR
+========================================================= */
+
+.event-value--muted {
+  margin-top: 5px;
+
+  color: var(--color-slate-400);
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+
+  line-height: 16px;
+}
+
+/* =========================================================
+   VERTICAL ARTISTIC DIVIDER
+   ---------------------------------------------------------
+   Không chạy từ trên xuống dưới một cách cứng.
+   Có fade ở hai đầu.
+========================================================= */
+
+.event-divider {
+  position: relative;
+
+  width: 1px;
+  min-width: 1px;
+
+  height: 100%;
+
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.12) 8%,
+    rgba(212, 175, 55, 0.52) 25%,
+    rgba(212, 175, 55, 0.52) 75%,
+    rgba(212, 175, 55, 0.12) 92%,
+    transparent 100%
+  );
+}
+
+/* =========================================================
+   DIVIDER CENTER ORNAMENT
+========================================================= */
+
+.event-divider::after {
+  content: '';
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--color-navy-950);
+
+  border: 1px solid var(--color-gold-500);
+
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+}
+
+/* =========================================================
+   MOBILE CANVAS
+   ---------------------------------------------------------
+   Giữ nguyên kích thước.
+   Không scale theo viewport.
+========================================================= */
+
+@media (max-width: 359px) {
+  .event-info {
+    transform: scale(0.94);
+    transform-origin: center top;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .event-info,
+  .event-info::before,
+  .event-info::after,
+  .event-divider,
+  .event-divider::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   CLOSING
+========================================================= */
+
+.invitation-closing {
+  width: 410px;
+  max-width: 100%;
+
+  margin: 56px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+
+  font-style: italic;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+.invitation-contact {
+  width: 410px;
+  max-width: 100%;
+
+  margin: 56px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+/* =========================================================
+   FOOTER ORNAMENT
+========================================================= */
+
+.invitation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  margin-top: 56px;
+
+  height: 6px;
+}
+
+.invitation-footer > span:first-child,
+.invitation-footer > span:last-child {
+  display: block;
+
+  width: 42px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--color-gold-border));
+}
+
+.invitation-footer > span:last-child {
+  background: linear-gradient(90deg, var(--color-gold-border), transparent);
+}
+
+.invitation-footer-diamond {
+  display: block;
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--color-gold-500);
+
+  transform: rotate(45deg);
+
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.invitation-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 240px;
+
+  color: var(--color-text-muted);
+
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+
+  line-height: 28px;
+
+  text-align: center;
+}
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ---------------------------------------------------------
+   KHÔNG scale typography.
+   Chỉ xử lý trường hợp viewport nhỏ hơn canvas.
+========================================================= */
+
+@media (max-width: 359px) {
+  .invitation-letter {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .event-info {
+    transform: scale(0.94);
+    transform-origin: center top;
+
+    /*
+     * Giữ layout gốc, chỉ thu nhỏ toàn bộ
+     * event block trong trường hợp cực nhỏ.
+     */
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .invitation-letter * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
