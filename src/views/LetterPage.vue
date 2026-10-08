@@ -1,29 +1,51 @@
 <template>
   <section class="screen-section screen-section--center">
-    <InvitationLetterComp />
+    <LetterTitleComp />
+    <LetterInvitationComp />
+    <LetterInfoComp />
+    <LetterClosingComp />
   </section>
 
   <section class="screen-section screen-section--center">
-    <PersonalNoteComp />
+    <NoteTitleComp />
+    <NoteBodyComp />
   </section>
 
   <section class="screen-section screen-section--center">
-    <CollectionPhotoComp />
+    <CollectionTitleComp />
+    <CollectionFrameComp />
+    <CollectionActionComp />
   </section>
 
   <section class="screen-section screen-section--center">
-    <ConfirmParticipationComp />
+    <ConfirmTitleComp />
+    <ConfirmFormComp />
   </section>
 
   <section class="screen-section screen-section--center">
-    <ThankYouComp />
+    <ThanksTitleComp />
+    <ThanksBodyComp />
+    <ThanksFooterComp />
   </section>
 </template>
 
 <script setup>
-import InvitationLetterComp from '@/components/InvitationLetterComp.vue'
-import PersonalNoteComp from '@/components/PersonalNoteComp.vue'
-import CollectionPhotoComp from '@/components/CollectionPhotoComp.vue'
-import ConfirmParticipationComp from '@/components/ConfirmParticipationComp.vue'
-import ThankYouComp from '@/components/ThankYouComp.vue'
+import LetterTitleComp from '@/components/letter/LetterTitleComp.vue'
+import LetterInvitationComp from '@/components/letter/LetterInvitationComp.vue'
+import LetterInfoComp from '@/components/letter/LetterInfoComp.vue'
+import LetterClosingComp from '@/components/letter/LetterClosingComp.vue'
+
+import NoteTitleComp from '@/components/letter/NoteTitleComp.vue'
+import NoteBodyComp from '@/components/letter/NoteBodyComp.vue'
+
+import CollectionTitleComp from '@/components/letter/CollectionTitleComp.vue'
+import CollectionFrameComp from '@/components/letter/CollectionFrameComp.vue'
+import CollectionActionComp from '@/components/letter/CollectionActionComp.vue'
+
+import ConfirmTitleComp from '@/components/letter/ConfirmTitleComp.vue'
+import ConfirmFormComp from '@/components/letter/ConfirmFormComp.vue'
+
+import ThanksTitleComp from '@/components/letter/ThanksTitleComp.vue'
+import ThanksBodyComp from '@/components/letter/ThanksBodyComp.vue'
+import ThanksFooterComp from '@/components/letter/ThanksFooterComp.vue'
 </script>

@@ -1,70 +1,52 @@
 <template>
-  <article class="confirm-participation" aria-labelledby="confirm-title">
-    <!-- =========================================
-         HEADER
-    ========================================== -->
+  <form class="confirm-form" @submit.prevent="handleSubmit">
+    <!-- NAME -->
 
-    <header class="confirm-header">
-      <h2 id="confirm-title" class="confirm-title">Bạn sẽ đến chứ?</h2>
+    <div class="form-field">
+      <label for="guest-name" class="form-label"> Người gửi </label>
 
-      <p class="confirm-description italic">
-        Hãy cho mình biết để mình chuẩn bị và tiếp đón chu đáo hơn nhé !
-      </p>
-    </header>
+      <input id="guest-name" v-model="form.name" type="text" class="form-input" readonly />
+    </div>
 
-    <!-- =========================================
-         FORM
-    ========================================== -->
+    <!-- PARTICIPATION -->
 
-    <form class="confirm-form" @submit.prevent="handleSubmit">
-      <!-- NAME -->
+    <div class="form-field">
+      <label for="guest-participation" class="form-label"> Tham gia </label>
 
-      <div class="form-field">
-        <label for="guest-name" class="form-label"> Người gửi </label>
+      <select id="guest-participation" v-model="form.participation" class="form-select">
+        <option value="" disabled>Chọn câu trả lời của bạn</option>
 
-        <input id="guest-name" v-model="form.name" type="text" class="form-input" readonly />
-      </div>
+        <option v-for="option in participationOptions" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
 
-      <!-- PARTICIPATION -->
+    <!-- MESSAGE -->
 
-      <div class="form-field">
-        <label for="guest-participation" class="form-label"> Tham gia </label>
+    <div class="form-field">
+      <label for="guest-message" class="form-label">
+        Lời nhắn
+        <span class="form-label-optional">(không bắt buộc)</span>
+      </label>
 
-        <select id="guest-participation" v-model="form.participation" class="form-select">
-          <option value="" disabled>Chọn câu trả lời của bạn</option>
+      <textarea
+        id="guest-message"
+        v-model="form.message"
+        class="form-textarea"
+        rows="4"
+        maxlength="500"
+        placeholder="Có gì muốn nhắn với Thanh Duy không?"
+      ></textarea>
+    </div>
 
-          <option v-for="option in participationOptions" :key="option" :value="option">
-            {{ option }}
-          </option>
-        </select>
-      </div>
+    <!-- SUBMIT -->
 
-      <!-- MESSAGE -->
-
-      <div class="form-field">
-        <label for="guest-message" class="form-label">
-          Lời nhắn
-          <span class="form-label-optional">(không bắt buộc)</span>
-        </label>
-
-        <textarea
-          id="guest-message"
-          v-model="form.message"
-          class="form-textarea"
-          rows="4"
-          maxlength="500"
-          placeholder="Có gì muốn nhắn với Thanh Duy không?"
-        ></textarea>
-      </div>
-
-      <!-- SUBMIT -->
-
-      <button type="submit" class="submit-button" :disabled="isSubmitting || !form.participation">
-        <span v-if="isSubmitting">Đang gửi...</span>
-        <span v-else>Gửi xác nhận</span>
-      </button>
-    </form>
-  </article>
+    <button type="submit" class="submit-button" :disabled="isSubmitting || !form.participation">
+      <span v-if="isSubmitting">Đang gửi...</span>
+      <span v-else>Gửi xác nhận</span>
+    </button>
+  </form>
 </template>
 
 <script setup>
@@ -85,8 +67,22 @@ const participationOptions = [
   'Tiếc quá, hôm đó mình kẹt lịch mất rồi',
 ]
 
+const capitalizeWords = (value = '') =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+
+const getGuestName = (guest) => {
+  if (!guest) return ''
+
+  const name = guest.show ? `${guest.salutation || ''} ${guest.name || ''}` : guest.name || ''
+
+  return capitalizeWords(name)
+}
+
 const form = reactive({
-  name: guest?.name || '',
+  name: getGuestName(guest),
   participation: '',
   message: '',
 })
@@ -140,50 +136,6 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-/* =========================================================
-   ROOT
-========================================================= */
-
-.confirm-participation {
-  width: 100%;
-  max-width: 520px;
-
-  padding: 58px 40px 64px;
-
-  color: var(--color-text);
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.confirm-header {
-  text-align: center;
-}
-
-.confirm-title {
-  margin-top: 12px;
-
-  color: var(--color-gold-400);
-
-  font-family: var(--font-signature);
-  font-size: 42px;
-  font-weight: 400;
-
-  line-height: 42px;
-}
-
-.confirm-description {
-  margin-top: 10px;
-
-  color: var(--color-slate-400);
-
-  font-family: var(--font-serif);
-  font-size: 16px;
-
-  line-height: 1.6;
-}
-
 /* =========================================================
    FORM
 ========================================================= */
@@ -412,21 +364,11 @@ const handleSubmit = async () => {
 }
 
 /* =========================================================
-   FIXED MOBILE CANVAS
-========================================================= */
-
-@media (min-width: 768px) {
-  .confirm-participation {
-    max-width: 520px;
-  }
-}
-
-/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .confirm-participation * {
+  .confirm-form * {
     transition: none !important;
     animation: none !important;
   }

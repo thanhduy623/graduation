@@ -1,3 +1,40 @@
+﻿src\views\LetterPage.vue
+
+<template>
+  <section class="screen-section screen-section--center">
+    <InvitationLetterComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <PersonalNoteComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <CollectionPhotoComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <ConfirmParticipationComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <ThankYouComp />
+  </section>
+</template>
+
+<script setup>
+import InvitationLetterComp from '@/components/InvitationLetterComp.vue'
+import PersonalNoteComp from '@/components/PersonalNoteComp.vue'
+import CollectionPhotoComp from '@/components/CollectionPhotoComp.vue'
+import ConfirmParticipationComp from '@/components/ConfirmParticipationComp.vue'
+import ThankYouComp from '@/components/ThankYouComp.vue'
+</script>
+
+
+---
+
+src\components\InvitationLetterComp.vue
+
 <template>
   <article class="invitation-letter" aria-labelledby="invitation-title">
     <!-- =========================================
@@ -799,3 +836,117 @@ const guest = getCurrentGuest()
   }
 }
 </style>
+
+src\composables\useGuest.js
+
+import { GUEST_DATA } from '@/data/data'
+
+const STORAGE_KEY = 'guestId'
+
+export function useGuest() {
+  /**
+   * Lưu khách hiện tại.
+   * Chỉ lưu ID, không lưu thông tin khách.
+   */
+  const setGuest = (guestId) => {
+    if (!guestId) {
+      sessionStorage.removeItem(STORAGE_KEY)
+      return
+    }
+
+    sessionStorage.setItem(STORAGE_KEY, guestId)
+  }
+
+  /**
+   * Lấy ID khách đang được lưu.
+   */
+  const getGuestId = () => {
+    return sessionStorage.getItem(STORAGE_KEY)
+  }
+
+  /**
+   * Tìm toàn bộ thông tin khách từ ID.
+   */
+  const getCurrentGuest = () => {
+    const guestId = getGuestId()
+
+    if (!guestId) {
+      return null
+    }
+
+    return GUEST_DATA.find((guest) => guest.id === guestId) || null
+  }
+
+  /**
+   * Xóa khách hiện tại.
+   */
+  const clearGuest = () => {
+    sessionStorage.removeItem(STORAGE_KEY)
+  }
+
+  /**
+   * Kiểm tra ID có tồn tại trong data hay không.
+   */
+  const hasGuest = (guestId) => {
+    return GUEST_DATA.some((guest) => guest.id === guestId)
+  }
+
+  return {
+    setGuest,
+    getGuestId,
+    getCurrentGuest,
+    clearGuest,
+    hasGuest,
+  }
+}
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+
+Giao diện trang LetterPage.vue hiện tại đang chứa 5 components chính.
+
+Tuy nhiên kiến trúc này tôi cảm thấy nó đang bị nặng cho 1 components quá, nên tôi muốn thay vì:
+
+<section class="screen-section screen-section--center">
+    <InvitationLetterComp />
+</section>
+
+thì sẽ tách components ra thành nhiều components con và điền trực tiến vào vào Page luôn thay vì phải qua component trung giang:
+
+<section class="screen-section screen-section--center">
+    <Comp1 />
+    <Comp2 />
+    <Comp3 />
+    ...
+</section>
+
+Biết rằng tôi muốn các components sẽ tự nội sinh (tự gọi hàm và hiển thị dữ liệu từ chính trong component ko cần truyền từ Page hay từ component Cha vào). Ví dụ: invitation-title sẽ tự gọi event.title để lấy dữ liệu và hiển thị chứ ko cần truyền lên (chỉ cần lấy và hiển thị lên việc xác thực dữ liệu và kiểm tra dữ liệu đã được xử lí ở nơi khác).
+
+Giữ nguyên giao diện hiện tại không được thay đổi bất cứ phần nào. Chỉ thực hiên xoá component thành phần trực tiếp hiện tại. Tách nhỏ nó ra thành các component con và trực thuộc thẳng vào page.
+
+Các file components mới được tạo ở: src\components\letter
+
+Bây giờ thực hiện đọc component src\components\InvitationLetterComp.vue và tách nó ra thành các thành phần nhỏ (trả các file thành phần hoàn chỉnh). Đồng thời cung cấp lại code của phần screen-section mới và code import Các thành phần mới.
+
+LetterTitleComp.vue — Tiêu đề + ornament đầu
+LetterInvitationComp.vue — Lời mời + tên khách + nội dung mời
+LetterInfoComp.vue — Thời gian + địa điểm
+LetterClosingComp.vue — Lời kết + footer ornament
+
+Các file vue trả về theo thức tự template - script - style
+
+Kết quả đầu ra mong muốn:
+
+  <section class="screen-section screen-section--center">
+    <LetterTitleComp/>
+    <LetterInvitationComp/>
+    <LetterInfoComp/>
+    <LetterClosingComp/>
+  </section>
