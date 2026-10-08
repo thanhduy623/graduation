@@ -1,10 +1,6 @@
 <script setup>
 import AppViewport from '@/components/layout/AppViewport.vue'
 import Toast from '@/components/Toast.vue'
-
-import { useSectionScroll } from '@/composables/useSectionScroll'
-
-useSectionScroll()
 </script>
 
 <template>
