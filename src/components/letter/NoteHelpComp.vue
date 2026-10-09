@@ -44,7 +44,7 @@
           <!-- Dòng 2: Title -->
           <span class="btn-title">Định vị</span>
           <!-- Dòng 3: Description -->
-          <span class="btn-desc">19 Nguyễn Hữu Thọ</span>
+          <span class="btn-desc">Trường ĐH Tôn Đức Thắng</span>
         </a>
       </div>
     </div>
@@ -75,14 +75,25 @@
         </div>
       </div>
 
+      <!-- 4. Cách xác định vị trí -->
+      <div class="note-item">
+        <div class="note-bullet"></div>
+        <div class="note-content">
+          <h4 class="note-heading">Cách xác định vị trí</h4>
+          <p class="note-desc">
+            Khi vào cổng, để ý số hiệu cổng được ghi phía trên. Nếu cần hỗ trợ, cứ hỏi các chú bảo
+            vệ hoặc bạn tình nguyện viên áo xanh để được chỉ đường cụ thể. Hoặc gọi ngay đến mình
+            nha!
+          </p>
+        </div>
+      </div>
+
       <!-- 3. Phương tiện di chuyển -->
       <div class="note-item">
         <div class="note-bullet"></div>
         <div class="note-content">
           <h4 class="note-heading">Phương tiện di chuyển</h4>
-          <p class="note-desc mb-3">
-            Khuyến khích đi xe công nghệ thay vì xe cá nhân để thuận tiện hơn:
-          </p>
+          <p class="note-desc mb-3">Khuyến khích đi xe công nghệ thay vì xe cá nhân:</p>
 
           <div class="transport-grid">
             <div class="transport-row">
@@ -99,21 +110,9 @@
             </div>
             <div class="transport-row transport-row--warning">
               <span class="transport-label">Ô tô cá nhân</span>
-              <span class="transport-val">Không đảm bảo bãi đậu</span>
+              <span class="transport-val">Trường không đảm bảo bãi đậu</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- 4. Cách xác định vị trí -->
-      <div class="note-item">
-        <div class="note-bullet"></div>
-        <div class="note-content">
-          <h4 class="note-heading">Cách xác định vị trí</h4>
-          <p class="note-desc">
-            Khi vào cổng, để ý số hiệu cổng được ghi phía trên. Nếu cần hỗ trợ, cứ hỏi các chú bảo
-            vệ hoặc bạn tình nguyện viên áo xanh để được chỉ đường cụ thể.
-          </p>
         </div>
       </div>
     </div>
@@ -145,14 +144,15 @@
 }
 
 .notes-title {
-  margin: 14px 0 0;
-  color: var(--color-gold-light);
+  margin: 12px 0 0;
+
+  color: var(--color-gold-400);
+
   font-family: var(--font-signature);
-  font-size: 52px;
+  font-size: 42px;
   font-weight: 400;
-  line-height: 1.05;
-  text-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
-  text-align: center;
+
+  line-height: 42px;
 }
 
 /* =========================================================

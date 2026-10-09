@@ -49,17 +49,15 @@ import HorizontalFooterOrnamentComp from '../common/HorizontalFooterOrnamentComp
 }
 
 .thanks-title-heading {
-  margin: 14px 0 0;
+  margin: 12px 0 0;
 
-  color: var(--color-gold-light);
+  color: var(--color-gold-400);
 
   font-family: var(--font-signature);
-  font-size: 52px;
+  font-size: 42px;
   font-weight: 400;
 
-  line-height: 1.05;
-
-  text-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
+  line-height: 42px;
 }
 
 /* =========================================================

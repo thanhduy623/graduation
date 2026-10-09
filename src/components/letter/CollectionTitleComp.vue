@@ -16,12 +16,11 @@
 }
 
 .collection-phototitle {
-  margin: 0;
+  margin: 12px 0 0;
 
   color: var(--color-gold-400);
-  font-family: var(--font-signature);
 
-  font-size: clamp(32px, 7vw, 48px);
+  font-family: var(--font-signature);
   font-size: 42px;
   font-weight: 400;
 
