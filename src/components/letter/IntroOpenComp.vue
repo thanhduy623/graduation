@@ -9,12 +9,19 @@
         playsinline
         webkit-playsinline
         muted
+        preload="auto"
+        @loadeddata="handleVideoLoaded"
         @ended="handleVideoEnded"
       ></video>
     </div>
 
-    <!-- Comp 2: Lớp phủ ban đầu (Hiển thị khi chưa chạm lần 1) -->
-    <div v-if="!hasStarted" class="intro-overlay prompt-overlay">
+    <!-- Màn hình chờ load video nhẹ nhàng để tránh hoàn toàn chớp đen -->
+    <div v-if="!isVideoReady" class="intro-overlay loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Comp 2: Lớp phủ ban đầu (Hiển thị khi chưa chạm lần 1 và video đã sẵn sàng) -->
+    <div v-if="isVideoReady && !hasStarted" class="intro-overlay prompt-overlay">
       <div class="instruction-text">Chạm màn hình để mở thư</div>
     </div>
 
@@ -26,13 +33,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const emit = defineEmits(['complete'])
 const videoRef = ref(null)
 
+const isVideoReady = ref(false)
 const hasStarted = ref(false)
 const isPlaying = ref(false)
+
+// Đảm bảo ép video tải frame đầu tiên ngay khi mounted
+onMounted(() => {
+  if (videoRef.value) {
+    videoRef.value.load()
+    // Đề phòng trường hợp sự kiện loadeddata đã bắn trước khi lắng nghe
+    if (videoRef.value.readyState >= 2) {
+      isVideoReady.value = true
+    }
+  }
+})
+
+const handleVideoLoaded = () => {
+  isVideoReady.value = true
+}
 
 const handleScreenClick = () => {
   if (!hasStarted.value) {
@@ -70,7 +93,7 @@ const handleVideoEnded = () => {
   max-height: 932px;
   margin: 0 auto;
   overflow: hidden;
-  background: #000;
+  background: #0a0001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +108,7 @@ const handleVideoEnded = () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #000;
+  background: #0a0001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,8 +126,29 @@ const handleVideoEnded = () => {
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+.loading-overlay {
+  background: rgba(10, 0, 1, 0.9);
+  z-index: 40;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-top-color: var(--color-gold-400, #d4af37);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .prompt-overlay {
