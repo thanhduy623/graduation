@@ -29,6 +29,14 @@ COLOR — CORE
   --color-slate-800: #1e293b;
   --color-slate-900: #0f172a;
 
+  /* Wine / Burgundy */
+  --color-wine-500: #9d0009;
+  --color-wine-600: #8e0c07;
+  --color-wine-700: #720907;
+  --color-wine-800: #550100;
+  --color-wine-900: #450005;
+  --color-wine-950: #2a0002;
+
   /* Gold */
   --color-gold-100: #f3e5ab;
   --color-gold-200: #ead18a;

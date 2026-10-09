@@ -15,6 +15,16 @@ export default {
           DEFAULT: 'var(--color-navy-800)',
         },
 
+        wine: {
+          500: 'var(--color-wine-500)',
+          600: 'var(--color-wine-600)',
+          700: 'var(--color-wine-700)',
+          800: 'var(--color-wine-800)',
+          900: 'var(--color-wine-900)',
+          950: 'var(--color-wine-950)',
+          DEFAULT: 'var(--color-wine-700)',
+        },
+
         slate: {
           50: 'var(--color-slate-50)',
           100: 'var(--color-slate-100)',
