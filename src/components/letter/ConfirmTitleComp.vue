@@ -1,6 +1,6 @@
 <template>
   <header class="confirm-header">
-    <h2 id="confirm-title" class="confirm-title">Bạn sẽ đến chứ?</h2>
+    <h2 id="confirm-title" class="confirm-title">Bạn sẽ đến chứ ?</h2>
 
     <p class="confirm-description italic">Hãy cho mình biết để tiếp đón chu đáo hơn nhé !</p>
   </header>

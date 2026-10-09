@@ -17,15 +17,25 @@
     <!-- PARTICIPATION -->
 
     <div class="form-field">
-      <label for="guest-participation" class="form-label"> Tham gia </label>
+      <label class="form-label"> Tham gia </label>
 
-      <select id="guest-participation" v-model="form.participation" class="form-select">
-        <option value="" disabled>Chọn câu trả lời của bạn</option>
-
-        <option v-for="option in participationOptions" :key="option" :value="option">
-          {{ option }}
-        </option>
-      </select>
+      <div class="radio-cards">
+        <label
+          v-for="option in participationOptions"
+          :key="option"
+          class="radio-card"
+          :class="{ active: form.participation === option }"
+        >
+          <input
+            type="radio"
+            name="participation"
+            :value="option"
+            v-model="form.participation"
+            class="radio-input"
+          />
+          <span class="radio-text">{{ option }}</span>
+        </label>
+      </div>
     </div>
 
     <!-- MESSAGE -->
@@ -68,9 +78,9 @@ const guest = getCurrentGuest()
 const isSubmitting = ref(false)
 
 const participationOptions = [
-  'Chắc chắn tham gia nhé!',
-  'Để sắp xếp rồi báo sau nha!',
-  'Hôm đó kẹt lịch mất rồi!',
+  'Chắc chắn tham gia nhé !',
+  'Để sắp xếp rồi báo sau nha !',
+  'Hôm đó kẹt lịch mất rồi !',
 ]
 
 const form = reactive({
@@ -134,6 +144,7 @@ const handleSubmit = async () => {
 
 .confirm-form {
   margin-top: 42px;
+  width: 100%;
 }
 
 .form-field {
@@ -230,46 +241,29 @@ const handleSubmit = async () => {
 }
 
 /* =========================================================
-   SELECT
+   RADIO CARDS
 ========================================================= */
 
-.form-select {
-  width: 100%;
-  height: 48px;
+.radio-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  padding: 0 42px 0 16px;
+.radio-card {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  width: 100%;
+  padding: 14px 16px;
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 
-  color: var(--color-slate-200);
-
   background-color: var(--color-surface-soft);
 
-  font-family: var(--font-serif);
-  font-size: 15px;
-  line-height: 1.4;
-
-  outline: none;
-
   cursor: pointer;
-
-  appearance: none;
-  -webkit-appearance: none;
-
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--color-gold-400) 50%),
-    linear-gradient(135deg, var(--color-gold-400) 50%, transparent 50%);
-
-  background-position:
-    calc(100% - 18px) 20px,
-    calc(100% - 13px) 20px;
-
-  background-size:
-    5px 5px,
-    5px 5px;
-
-  background-repeat: no-repeat;
 
   transition:
     border-color var(--duration-normal) ease,
@@ -277,27 +271,34 @@ const handleSubmit = async () => {
     box-shadow var(--duration-normal) ease;
 }
 
-.form-select:hover {
+.radio-card:hover {
   border-color: var(--color-border-hover);
-
   background-color: var(--color-surface-hover);
 }
 
-.form-select:focus {
+.radio-card.active {
   border-color: var(--color-gold-border-strong);
-
   background-color: var(--color-gold-surface);
-
   box-shadow: 0 0 0 3px var(--color-gold-glow);
 }
 
-.form-select option {
-  color: var(--color-slate-900);
+.radio-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
 
-  background: var(--color-white);
+.radio-text {
+  color: var(--color-slate-200);
 
-  font-family: var(--font-sans);
-  font-size: 14px;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.radio-card.active .radio-text {
+  color: var(--color-slate-100);
+  font-weight: 500;
 }
 
 /* =========================================================
