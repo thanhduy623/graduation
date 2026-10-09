@@ -29,6 +29,10 @@
       </section>
 
       <section class="screen-section screen-section--center">
+        <NoteHelpComp />
+      </section>
+
+      <section class="screen-section screen-section--center">
         <ThanksTitleComp />
         <ThanksBodyComp />
         <ThanksFooterComp />
@@ -49,6 +53,7 @@ import LetterClosingComp from '@/components/letter/LetterClosingComp.vue'
 
 import NoteTitleComp from '@/components/letter/NoteTitleComp.vue'
 import NoteBodyComp from '@/components/letter/NoteBodyComp.vue'
+import NoteHelpComp from '@/components/letter/NoteHelpComp.vue'
 
 import CollectionTitleComp from '@/components/letter/CollectionTitleComp.vue'
 import CollectionFrameComp from '@/components/letter/CollectionFrameComp.vue'
