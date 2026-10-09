@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useGuest } from '@/composables/useGuest'
 
-import IntroPage from '../views/IntroPage.vue'
 import NoInfoPage from '../views/NoInfoPage.vue'
 import NotFound from '../views/NotFoundPage.vue'
 
@@ -11,12 +10,6 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'intro',
-      component: IntroPage,
-    },
-
-    {
-      path: '/letter',
       name: 'letter',
       component: () => import('../views/LetterPage.vue'),
     },
