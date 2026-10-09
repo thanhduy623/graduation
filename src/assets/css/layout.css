@@ -1,5 +1,5 @@
 /* ==========================================================================
-GRADUATION INVITATION — LAYOUT FOUNDATION
+GRADUATION INVITATION — LAYOUT FOUNDATION (FIXED JANK & LAYOUT SHIFT)
 ========================================================================== */
 
 /* ==========================================================================
@@ -7,30 +7,8 @@ LAYOUT VARIABLES
 ========================================================================== */
 
 :root {
-  /*
-   * Chiều rộng tối đa của experience.
-   *
-   * Mobile:
-   *   width: 100%
-   *
-   * Desktop:
-   *   width: 100%
-   *   max-width: 430px
-   *
-   * Không nên dùng width cố định vì điện thoại có nhiều kích thước khác nhau.
-   */
   --app-mobile-width: 430px;
-
-  /*
-   * Khoảng cách tối thiểu ở hai bên mobile viewport.
-   *
-   * Chủ yếu dùng khi content cần một chút breathing room.
-   */
   --app-horizontal-padding: 20px;
-
-  /*
-   * Khoảng cách mặc định theo chiều dọc.
-   */
   --app-vertical-padding: 24px;
 }
 
@@ -38,25 +16,12 @@ LAYOUT VARIABLES
 APP SHELL
 ========================================================================== */
 
-/*
- * Toàn bộ vùng ứng dụng.
- *
- * Desktop:
- *   chiếm toàn bộ màn hình.
- *
- * Mobile:
- *   cũng chiếm toàn bộ màn hình.
- *
- * Background nằm phía sau.
- * Mobile viewport nằm phía trên.
- */
 .app-shell {
   position: relative;
 
   width: 100%;
   min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
+  min-height: 100svh; /* Sử dụng svh ổn định thay vì dvh để tránh giật lag khi cuộn */
 
   overflow-x: hidden;
 
@@ -67,19 +32,6 @@ APP SHELL
 APP VIEWPORT
 ========================================================================== */
 
-/*
- * Đây là "mobile canvas" thực sự của website.
- *
- * Desktop:
- *   max-width: 430px
- *   nằm giữa màn hình.
- *
- * Mobile:
- *   width: 100%
- *
- * Không sử dụng position: fixed.
- * Page vẫn có thể scroll bình thường.
- */
 .app-viewport {
   position: relative;
 
@@ -88,7 +40,6 @@ APP VIEWPORT
 
   min-height: 100vh;
   min-height: 100svh;
-  min-height: 100dvh;
 
   margin-inline: auto;
 
@@ -96,19 +47,11 @@ APP VIEWPORT
 
   isolation: isolate;
 
-  /*
-   * Tạo một separation rất nhẹ giữa mobile experience
-   * và ambient background trên desktop.
-   */
   box-shadow:
     0 0 80px rgba(0, 0, 0, 0.18),
     0 0 120px rgba(212, 175, 55, 0.015);
 }
 
-/*
- * Trên màn hình nhỏ hơn mobile-width:
- * app viewport chiếm toàn bộ chiều ngang.
- */
 @media (max-width: 430px) {
   .app-viewport {
     box-shadow: none;
@@ -119,18 +62,12 @@ APP VIEWPORT
 CONTENT ROOT
 ========================================================================== */
 
-/*
- * Root container cho page.
- *
- * Dùng khi cần đảm bảo page luôn có min-height.
- */
 .app-page {
   position: relative;
 
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
-  min-height: 100dvh;
 
   overflow-x: hidden;
 }
@@ -139,67 +76,27 @@ CONTENT ROOT
 SCREEN SECTION
 ========================================================================== */
 
-/*
- * Một section có chiều cao tối thiểu bằng viewport hiện tại.
- *
- * Ưu tiên:
- *
- *   100dvh
- *
- * vì mobile browser có address bar thay đổi trạng thái.
- *
- * Fallback:
- *
- *   100svh
- *   100vh
- *
- * Content có thể cao hơn viewport vì đây là min-height,
- * không phải height.
- */
 .screen-section {
   position: relative;
 
   width: 100%;
 
+  /* Loại bỏ dvh ở đây để tránh giật màn hình khi thanh địa chỉ đóng/mở */
   min-height: 100vh;
   min-height: 100svh;
-  min-height: 100dvh;
 
   display: flex;
   flex-direction: column;
-
-  /*
-   * Căn nội dung theo chiều dọc.
-   */
   justify-content: center;
 
-  /*
-   * Không ép align-items ở đây.
-   *
-   * Component con có thể tự quyết định:
-   *   align-items: center
-   *   stretch
-   *   flex-start
-   * ...
-   */
   padding-top: max(var(--app-vertical-padding), var(--safe-top));
   padding-right: max(var(--app-horizontal-padding), var(--safe-right));
   padding-bottom: max(var(--app-vertical-padding), var(--safe-bottom));
   padding-left: max(var(--app-horizontal-padding), var(--safe-left));
 
-  /*
-   * Đảm bảo border/padding không làm tăng width.
-   */
   box-sizing: border-box;
 }
 
-/*
- * Variant cho section cần căn giữa cả horizontal lẫn vertical.
- *
- * Ví dụ:
- *
- * <section class="screen-section screen-section--center">
- */
 .screen-section--center {
   align-items: center;
   text-align: center;
@@ -209,10 +106,6 @@ SCREEN SECTION
 SAFE AREA SECTION
 ========================================================================== */
 
-/*
- * Khi một page cần kiểm soát safe-area riêng,
- * có thể sử dụng class này.
- */
 .safe-area {
   padding-top: max(var(--app-vertical-padding), var(--safe-top));
   padding-right: max(var(--app-horizontal-padding), var(--safe-right));
@@ -221,37 +114,19 @@ SAFE AREA SECTION
 }
 
 /* ==========================================================================
-FULL WIDTH
+FULL WIDTH & CONTENT CONTAINER
 ========================================================================== */
 
-/*
- * Cho component cần full chiều ngang của mobile viewport.
- */
 .full-width {
   width: 100%;
 }
 
-/* ==========================================================================
-CONTENT CONTAINER
-========================================================================== */
-
-/*
- * Giới hạn content text để typography không bị kéo quá rộng.
- *
- * Dùng bên trong .app-viewport.
- */
 .content-container {
   width: 100%;
   max-width: var(--content-width-md);
-
   margin-inline: auto;
 }
 
-/*
- * Mobile-first:
- * không thêm horizontal padding ở đây vì .screen-section
- * đã chịu trách nhiệm cho safe-area/padding.
- */
 .content-container--narrow {
   max-width: var(--content-width-sm);
 }
@@ -264,13 +139,6 @@ CONTENT CONTAINER
 DESKTOP PRESENTATION
 ========================================================================== */
 
-/*
- * Desktop không biến thành desktop layout.
- *
- * Chúng ta chỉ tăng khoảng không xung quanh mobile experience.
- *
- * App viewport vẫn giữ max-width 430px.
- */
 @media (min-width: 768px) {
   .app-shell {
     display: flex;
@@ -278,14 +146,8 @@ DESKTOP PRESENTATION
   }
 
   .app-viewport {
-    /*
-     * Không cần height cố định.
-     *
-     * Page vẫn scroll tự nhiên.
-     */
     min-height: 100vh;
     min-height: 100svh;
-    min-height: 100dvh;
   }
 }
 
@@ -293,12 +155,6 @@ DESKTOP PRESENTATION
 LANDSCAPE
 ========================================================================== */
 
-/*
- * Một số điện thoại xoay ngang sẽ có viewport rất thấp.
- *
- * Không thay đổi width architecture.
- * Chỉ giảm vertical padding để content có thêm không gian.
- */
 @media (orientation: landscape) and (max-height: 600px) {
   .screen-section {
     padding-top: max(12px, var(--safe-top));
