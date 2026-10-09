@@ -4,7 +4,7 @@
 // =====================================================
 
 export const EVENT_BASE = {
-  title: "THANH DUY'S GRADUATION CEREMONY",
+  title: 'THANH DUY GRADUATION CEREMONY',
 
   date: '01.11.2026',
 

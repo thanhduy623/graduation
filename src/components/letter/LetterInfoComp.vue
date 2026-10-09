@@ -65,7 +65,7 @@ const guest = getCurrentGuest()
 
   display: grid;
 
-  grid-template-columns: 2fr 1px 5fr;
+  grid-template-columns: 3fr 1px 5fr;
 
   width: 361px;
   padding: 16px 0;
@@ -152,62 +152,6 @@ const guest = getCurrentGuest()
 }
 
 /* =========================================================
-   PRIMARY EVENT VALUE
-========================================================= */
-
-.event-value--large {
-  width: 100%;
-
-  margin: 0;
-
-  color: var(--color-white);
-
-  font-family: var(--font-serif);
-
-  font-size: 24px;
-  font-weight: 500;
-
-  letter-spacing: 0.3px;
-  line-height: 30px;
-
-  text-align: center;
-
-  text-wrap: balance;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.08);
-}
-
-/* =========================================================
-   TIME SPECIAL
-========================================================= */
-
-.event-column:first-child .event-value--large {
-  color: var(--color-gold-light);
-
-  font-size: 26px;
-  font-weight: 500;
-
-  letter-spacing: 0.5px;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
-}
-
-/* =========================================================
-   ZONE SPECIAL
-========================================================= */
-
-.event-column:last-child .event-value--large {
-  color: var(--color-gold-light);
-
-  font-size: 26px;
-  font-weight: 500;
-
-  letter-spacing: 0.5px;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
-}
-
-/* =========================================================
    SECONDARY EVENT VALUE
 ========================================================= */
 
@@ -231,6 +175,34 @@ const guest = getCurrentGuest()
   text-wrap: balance;
 
   overflow-wrap: break-word;
+}
+
+/* =========================================================
+   PRIMARY EVENT VALUE
+========================================================= */
+
+.event-value--large {
+  width: 100%;
+
+  margin: 0;
+
+  color: var(--color-gold-light);
+
+  font-family: var(--font-serif);
+
+  font-size: 24px;
+  font-weight: 500;
+
+  letter-spacing: 0.3px;
+  line-height: 30px;
+
+  text-align: center;
+
+  text-wrap: balance;
+
+  letter-spacing: 0.5px;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
 }
 
 /* =========================================================
