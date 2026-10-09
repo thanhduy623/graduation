@@ -2,9 +2,7 @@
   <header class="confirm-header">
     <h2 id="confirm-title" class="confirm-title">Bạn sẽ đến chứ?</h2>
 
-    <p class="confirm-description italic">
-      Hãy cho mình biết để mình chuẩn bị và tiếp đón chu đáo hơn nhé !
-    </p>
+    <p class="confirm-description italic">Hãy cho mình biết để tiếp đón chu đáo hơn nhé !</p>
   </header>
 </template>
 

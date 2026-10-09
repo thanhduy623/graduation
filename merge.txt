@@ -1,149 +1,2754 @@
-﻿src\views\LetterPage.vue
+﻿E:\Code\graduation\src\App.vue
+<script setup>
+import AppViewport from '@/components/layout/AppViewport.vue'
+import Toast from '@/components/Toast.vue'
+</script>
 
 <template>
-  <section class="screen-section screen-section--center">
-    <InvitationLetterComp />
-  </section>
+  <div
+    class="min-h-screen bg-wine-950 text-slate-100 font-sans antialiased selection:bg-gold-500 selection:text-wine-950"
+  >
+    <AppViewport />
 
-  <section class="screen-section screen-section--center">
-    <PersonalNoteComp />
-  </section>
+    <Toast />
+  </div>
+</template>
 
-  <section class="screen-section screen-section--center">
-    <CollectionPhotoComp />
-  </section>
 
-  <section class="screen-section screen-section--center">
-    <ConfirmParticipationComp />
-  </section>
+---oOo---
 
-  <section class="screen-section screen-section--center">
-    <ThankYouComp />
-  </section>
+E:\Code\graduation\src\assets\css\background.css
+/* ==========================================================================
+GRADUATION INVITATION — AMBIENT BACKGROUND (CINEMATIC EDITION)
+========================================================================== */
+
+/*
+ * Background philosophy:
+ *
+ * - Không gây chú ý hơn content: Độ sáng (opacity) được kiểm soát nghiêm ngặt.
+ * - Animation rất chậm & hữu cơ (Organic): Di chuyển mềm mại như khói/chất lỏng.
+ * - Không sử dụng JavaScript/Canvas: Hiệu năng tối đa 60fps.
+ * - Hiệu ứng nghệ thuật (Cinematic): Bổ sung Film Grain (Nhiễu hạt) và Mix-blend-mode.
+ * - Tương tác cuộn (Scroll-driven): Tích hợp CSS animation-timeline cuộn mượt mà.
+ */
+
+/* ==========================================================================
+BACKGROUND ROOT
+========================================================================== */
+
+.app-background {
+  position: fixed;
+  inset: 0;
+
+  z-index: -1;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(114, 9, 7, 0.35), transparent 60%),
+    linear-gradient(
+      180deg,
+      var(--color-wine-800) 0%,
+      var(--color-wine-850, var(--color-wine-800)) 45%,
+      #0a0001 100%
+    );
+
+  background-size: 100% 120%; /* Mở rộng size để làm hiệu ứng cuộn */
+}
+
+/* 
+ * 1. CINEMATIC NOISE TEXTURE 
+ * Phủ một lớp nhiễu hạt siêu mờ, tạo cảm giác retro, nghệ thuật và chống banding gradient 
+ */
+.app-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10; /* Nằm trên các gradient nhưng dưới content */
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+SCROLL-DRIVEN INTERACTION (Tương tác khi cuộn trang)
+========================================================================== */
+
+/* Kỹ thuật CSS hiện đại: Background sẽ dịch chuyển nhẹ khi cuộn trang mà ko cần JS */
+@supports (animation-timeline: scroll()) {
+  .app-background {
+    animation: parallaxBackground linear;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes parallaxBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+/* ==========================================================================
+AMBIENT ORBS
+========================================================================== */
+
+.background-orb {
+  position: absolute;
+
+  width: 35rem;
+  height: 35rem;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(90px);
+
+  /* 2. OPTICAL BLENDING: Giúp ánh sáng hòa quyện vào nhau nghệ thuật hơn */
+  mix-blend-mode: screen;
+
+  opacity: 0.3;
+
+  will-change: transform, opacity;
+
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+GOLD ORB
+-------------------------------------------------------------------------- */
+
+.background-orb--gold {
+  top: -10rem;
+  left: 40%;
+
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.18) 0%,
+    rgba(212, 175, 55, 0.06) 40%,
+    transparent 70%
+  );
+
+  animation: organicGoldFloat 28s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+/* --------------------------------------------------------------------------
+WINE / BURGUNDY ORB
+-------------------------------------------------------------------------- */
+
+.background-orb--wine {
+  right: -15rem;
+  bottom: -10rem;
+
+  background: radial-gradient(
+    circle,
+    rgba(180, 20, 15, 0.25) 0%,
+    rgba(114, 9, 7, 0.12) 45%,
+    transparent 75%
+  );
+
+  animation: organicWineFloat 32s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+/* --------------------------------------------------------------------------
+DEEP WINE ORB
+-------------------------------------------------------------------------- */
+
+.background-orb--deep-wine {
+  top: 35%;
+  left: -20rem;
+
+  width: 30rem;
+  height: 30rem;
+
+  background: radial-gradient(
+    circle,
+    rgba(142, 12, 7, 0.25) 0%,
+    rgba(69, 0, 5, 0.1) 50%,
+    transparent 70%
+  );
+
+  animation: organicDeepWineFloat 38s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+/* ==========================================================================
+PARTICLES (HẠT BỤI VÀNG CÓ ĐỘ SÂU 3D)
+========================================================================== */
+
+.background-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.background-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #f3e5ab; /* Vàng sáng */
+  box-shadow:
+    0 0 8px rgba(212, 175, 55, 0.6),
+    0 0 16px rgba(212, 175, 55, 0.2);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation:
+    particleFloat 12s var(--ease-smooth) infinite,
+    particlePulse 4s ease-in-out infinite;
+}
+
+/* 3. DEPTH OF FIELD (Mô phỏng ống kính máy ảnh) */
+/* Hạt nhỏ ở xa, nét */
+.background-particle--small {
+  width: 1.5px;
+  height: 1.5px;
+}
+/* Hạt vừa ở trung tâm */
+.background-particle--medium {
+  width: 2.5px;
+  height: 2.5px;
+  filter: blur(0.5px);
+}
+/* Hạt to ở sát ống kính, mờ (Bokeh) */
+.background-particle--large {
+  width: 4px;
+  height: 4px;
+  filter: blur(1.5px);
+}
+
+/* Positions & Delays */
+.background-particle--1 {
+  top: 15%;
+  left: 20%;
+  animation-delay:
+    -2s,
+    -1s;
+}
+.background-particle--2 {
+  top: 35%;
+  right: 15%;
+  animation-delay:
+    -6s,
+    -2s;
+}
+.background-particle--3 {
+  top: 65%;
+  left: 12%;
+  animation-delay:
+    -8s,
+    -3s;
+}
+.background-particle--4 {
+  top: 75%;
+  right: 22%;
+  animation-delay:
+    -4s,
+    -1s;
+}
+.background-particle--5 {
+  top: 45%;
+  right: 10%;
+  animation-delay:
+    -7s,
+    -4s;
+}
+.background-particle--6 {
+  top: 85%;
+  left: 35%;
+  animation-delay:
+    -3s,
+    -2s;
+}
+
+/* ==========================================================================
+VIGNETTE (Breathing Effect)
+========================================================================== */
+
+.background-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(20, 0, 2, 0.25) 75%,
+    rgba(10, 0, 1, 0.75) 100%
+  );
+
+  /* Hiệu ứng thở nhẹ nhàng cho viền tối */
+  animation: vignetteBreathe 10s ease-in-out infinite alternate;
+}
+
+@keyframes vignetteBreathe {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+ORGANIC ANIMATIONS (Chuyển động hữu cơ phức hợp)
+========================================================================== */
+
+/* Thêm rotate và scale kết hợp translate để tạo quỹ đạo hình elip/số 8 mềm mại */
+
+@keyframes organicGoldFloat {
+  0% {
+    transform: translate3d(-10%, 0, 0) scale(0.9) rotate(0deg);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate3d(5%, 4rem, 0) scale(1.05) rotate(15deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(-15%, 8rem, 0) scale(0.95) rotate(-5deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes organicWineFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-4rem, -3rem, 0) scale(1.1) rotate(-10deg);
+  }
+  100% {
+    transform: translate3d(3rem, -6rem, 0) scale(1) rotate(5deg);
+  }
+}
+
+@keyframes organicDeepWineFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(5rem, 2rem, 0) scale(0.9) rotate(10deg);
+  }
+  100% {
+    transform: translate3d(2rem, -4rem, 0) scale(1.08) rotate(-8deg);
+  }
+}
+
+/* ==========================================================================
+PARTICLE ANIMATIONS (Hạt sáng bay lên như tàn lửa/rượu champagne)
+========================================================================== */
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0) rotate(0deg);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(15px, -60px, 0) rotate(45deg);
+  }
+}
+
+@keyframes particlePulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+MOBILE OPTIMIZATION
+========================================================================== */
+
+/* Trên mobile giữ hiệu năng bằng cách giảm cường độ và filter */
+@media (max-width: 767px) {
+  .app-background {
+    background-size: 100% 100%;
+  }
+
+  .background-orb {
+    filter: blur(60px);
+    opacity: 0.25;
+  }
+
+  .background-orb--gold,
+  .background-orb--wine {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .background-orb--deep-wine {
+    width: 18rem;
+    height: 18rem;
+  }
+
+  /* Giảm số lượng hạt trên mobile */
+  .background-particle:nth-child(even) {
+    display: none;
+  }
+
+  /* Noise có thể gây nặng máy cũ trên mobile, giảm opacity */
+  .app-background::before {
+    opacity: 0.15;
+  }
+}
+
+/* ==========================================================================
+REDUCED MOTION (A11y - Tôn trọng cài đặt người dùng)
+========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .background-orb,
+  .background-particle,
+  .background-vignette,
+  .app-background {
+    animation: none !important;
+  }
+
+  .background-particle {
+    opacity: 0.2;
+  }
+}
+
+
+---oOo---
+
+E:\Code\graduation\src\assets\css\base.css
+/* ==========================================================================
+ROOT
+========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+  COLOR — CORE
+  ------------------------------------------------------------------------ */
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Wine / Burgundy */
+  --color-wine-500: #9d0009;
+  --color-wine-600: #8e0c07;
+  --color-wine-700: #720907;
+  --color-wine-800: #550100;
+  --color-wine-900: #450005;
+  --color-wine-950: #2a0002;
+
+  /* Slate / Neutral */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  /* Gold */
+  --color-gold-100: #f3e5ab;
+  --color-gold-200: #ead18a;
+  --color-gold-300: #e5c158;
+  --color-gold-400: #e5c158;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #aa8c2c;
+  --color-gold-700: #80642d;
+  --color-gold-800: #5e481f;
+
+  /* ------------------------------------------------------------------------
+  COLOR — SEMANTIC
+  ------------------------------------------------------------------------ */
+
+  --color-background: var(--color-wine-950);
+  --color-background-soft: var(--color-wine-900);
+  --color-background-mute: var(--color-wine-800);
+
+  --color-surface: rgba(69, 0, 5, 0.72);
+  --color-surface-soft: rgba(255, 255, 255, 0.035);
+  --color-surface-hover: rgba(255, 255, 255, 0.06);
+
+  --color-text: var(--color-slate-100);
+  --color-text-muted: var(--color-slate-400);
+  --color-text-faint: rgba(148, 163, 184, 0.5);
+  --color-text-placeholder: rgba(148, 163, 184, 0.42);
+
+  --color-heading: var(--color-white);
+
+  /* ------------------------------------------------------------------------
+  GOLD — SEMANTIC
+  ------------------------------------------------------------------------ */
+
+  --color-gold: var(--color-gold-500);
+  --color-gold-light: var(--color-gold-100);
+  --color-gold-muted: rgba(229, 193, 88, 0.72);
+  --color-gold-dark: var(--color-gold-700);
+
+  --color-gold-glow: rgba(212, 175, 55, 0.12);
+
+  --color-gold-surface: rgba(212, 175, 55, 0.08);
+  --color-gold-surface-hover: rgba(212, 175, 55, 0.14);
+
+  --color-gold-border: rgba(212, 175, 55, 0.22);
+  --color-gold-border-strong: rgba(212, 175, 55, 0.48);
+
+  /* ------------------------------------------------------------------------
+  BORDER
+  ------------------------------------------------------------------------ */
+
+  --color-border: rgba(148, 163, 184, 0.14);
+  --color-border-hover: rgba(148, 163, 184, 0.28);
+
+  /* ------------------------------------------------------------------------
+  GRADIENTS
+  ------------------------------------------------------------------------ */
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    var(--color-gold-100) 0%,
+    var(--color-gold-500) 48%,
+    var(--color-gold-700) 100%
+  );
+
+  --gradient-gold-metallic: linear-gradient(
+    120deg,
+    #8f6c2c 0%,
+    #d8b75b 20%,
+    #fff0a8 38%,
+    #b48b3e 55%,
+    #f3d982 76%,
+    #8f6c2c 100%
+  );
+
+  --gradient-wine: linear-gradient(180deg, var(--color-wine-900) 0%, var(--color-wine-950) 100%);
+
+  --gradient-surface: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.01)
+  );
+
+  /* Alias để tương thích với component hiện tại */
+  --gold-gradient: var(--gradient-gold);
+
+  /* ------------------------------------------------------------------------
+  TYPOGRAPHY
+  ------------------------------------------------------------------------ */
+
+  --font-sans:
+    Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+
+  --font-script: 'Brush Script MT', 'Segoe Script', cursive;
+
+  --font-signature: 'Alex Brush', cursive;
+
+  --font-size-base: 15px;
+  --line-height-base: 1.6;
+
+  /* ------------------------------------------------------------------------
+  LAYOUT
+  ------------------------------------------------------------------------ */
+
+  --content-width-xs: 28rem;
+  --content-width-sm: 34rem;
+  --content-width-md: 42rem;
+  --content-width-lg: 56rem;
+  --content-width-xl: 72rem;
+
+  --section-gap: 160px;
+
+  /* ------------------------------------------------------------------------
+  RADIUS
+  ------------------------------------------------------------------------ */
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ------------------------------------------------------------------------
+  SHADOW
+  ------------------------------------------------------------------------ */
+
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.22);
+
+  --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.38);
+
+  --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.12);
+
+  /* ------------------------------------------------------------------------
+  MOTION
+  ------------------------------------------------------------------------ */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --duration-fast: 180ms;
+  --duration-normal: 300ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1200ms;
+
+  --transition-color: color var(--duration-normal) ease;
+
+  --transition-background: background-color var(--duration-normal) ease;
+
+  /* ------------------------------------------------------------------------
+  MOBILE / SAFE AREA
+  ------------------------------------------------------------------------ */
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+/* ==========================================================================
+GLOBAL RESET
+========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--color-background);
+
+  font-size: 100%;
+
+  scroll-behavior: smooth;
+
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  overscroll-behavior-x: none;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+
+  color: var(--color-text);
+  background: var(--color-background);
+
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  line-height: var(--line-height-base);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  transition:
+    color var(--duration-normal) ease,
+    background-color var(--duration-normal) ease;
+}
+
+#app {
+  min-height: 100svh;
+  width: 100%;
+}
+
+/* ==========================================================================
+TYPOGRAPHY RESET
+========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+::selection {
+  color: var(--color-wine-950);
+  background: var(--color-gold-500);
+}
+
+/* ==========================================================================
+MOBILE TOUCH
+========================================================================== */
+
+button,
+a,
+input,
+textarea,
+select {
+  touch-action: manipulation;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ==========================================================================
+FOCUS
+========================================================================== */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-gold-400);
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+SCROLLBAR
+========================================================================== */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-wine-950);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-full);
+  background: rgba(212, 175, 55, 0.28);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.45);
+}
+
+/* ==========================================================================
+REDUCED MOTION
+========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+---oOo---
+
+E:\Code\graduation\src\assets\css\layout.css
+/* ==========================================================================
+GRADUATION INVITATION — LAYOUT FOUNDATION
+========================================================================== */
+
+/* ==========================================================================
+LAYOUT VARIABLES
+========================================================================== */
+
+:root {
+  /*
+   * Chiều rộng tối đa của experience.
+   *
+   * Mobile:
+   *   width: 100%
+   *
+   * Desktop:
+   *   width: 100%
+   *   max-width: 430px
+   *
+   * Không nên dùng width cố định vì điện thoại có nhiều kích thước khác nhau.
+   */
+  --app-mobile-width: 430px;
+
+  /*
+   * Khoảng cách tối thiểu ở hai bên mobile viewport.
+   *
+   * Chủ yếu dùng khi content cần một chút breathing room.
+   */
+  --app-horizontal-padding: 20px;
+
+  /*
+   * Khoảng cách mặc định theo chiều dọc.
+   */
+  --app-vertical-padding: 24px;
+}
+
+/* ==========================================================================
+APP SHELL
+========================================================================== */
+
+/*
+ * Toàn bộ vùng ứng dụng.
+ *
+ * Desktop:
+ *   chiếm toàn bộ màn hình.
+ *
+ * Mobile:
+ *   cũng chiếm toàn bộ màn hình.
+ *
+ * Background nằm phía sau.
+ * Mobile viewport nằm phía trên.
+ */
+.app-shell {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+
+  isolation: isolate;
+}
+
+/* ==========================================================================
+APP VIEWPORT
+========================================================================== */
+
+/*
+ * Đây là "mobile canvas" thực sự của website.
+ *
+ * Desktop:
+ *   max-width: 430px
+ *   nằm giữa màn hình.
+ *
+ * Mobile:
+ *   width: 100%
+ *
+ * Không sử dụng position: fixed.
+ * Page vẫn có thể scroll bình thường.
+ */
+.app-viewport {
+  position: relative;
+
+  width: 100%;
+  max-width: var(--app-mobile-width);
+
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+
+  margin-inline: auto;
+
+  overflow-x: hidden;
+
+  isolation: isolate;
+
+  /*
+   * Tạo một separation rất nhẹ giữa mobile experience
+   * và ambient background trên desktop.
+   */
+  box-shadow:
+    0 0 80px rgba(0, 0, 0, 0.18),
+    0 0 120px rgba(212, 175, 55, 0.015);
+}
+
+/*
+ * Trên màn hình nhỏ hơn mobile-width:
+ * app viewport chiếm toàn bộ chiều ngang.
+ */
+@media (max-width: 430px) {
+  .app-viewport {
+    box-shadow: none;
+  }
+}
+
+/* ==========================================================================
+CONTENT ROOT
+========================================================================== */
+
+/*
+ * Root container cho page.
+ *
+ * Dùng khi cần đảm bảo page luôn có min-height.
+ */
+.app-page {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+SCREEN SECTION
+========================================================================== */
+
+/*
+ * Một section có chiều cao tối thiểu bằng viewport hiện tại.
+ *
+ * Ưu tiên:
+ *
+ *   100dvh
+ *
+ * vì mobile browser có address bar thay đổi trạng thái.
+ *
+ * Fallback:
+ *
+ *   100svh
+ *   100vh
+ *
+ * Content có thể cao hơn viewport vì đây là min-height,
+ * không phải height.
+ */
+.screen-section {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  /*
+   * Căn nội dung theo chiều dọc.
+   */
+  justify-content: center;
+
+  /*
+   * Không ép align-items ở đây.
+   *
+   * Component con có thể tự quyết định:
+   *   align-items: center
+   *   stretch
+   *   flex-start
+   * ...
+   */
+  padding-top: max(var(--app-vertical-padding), var(--safe-top));
+  padding-right: max(var(--app-horizontal-padding), var(--safe-right));
+  padding-bottom: max(var(--app-vertical-padding), var(--safe-bottom));
+  padding-left: max(var(--app-horizontal-padding), var(--safe-left));
+
+  /*
+   * Đảm bảo border/padding không làm tăng width.
+   */
+  box-sizing: border-box;
+}
+
+/*
+ * Variant cho section cần căn giữa cả horizontal lẫn vertical.
+ *
+ * Ví dụ:
+ *
+ * <section class="screen-section screen-section--center">
+ */
+.screen-section--center {
+  align-items: center;
+  text-align: center;
+}
+
+/* ==========================================================================
+SAFE AREA SECTION
+========================================================================== */
+
+/*
+ * Khi một page cần kiểm soát safe-area riêng,
+ * có thể sử dụng class này.
+ */
+.safe-area {
+  padding-top: max(var(--app-vertical-padding), var(--safe-top));
+  padding-right: max(var(--app-horizontal-padding), var(--safe-right));
+  padding-bottom: max(var(--app-vertical-padding), var(--safe-bottom));
+  padding-left: max(var(--app-horizontal-padding), var(--safe-left));
+}
+
+/* ==========================================================================
+FULL WIDTH
+========================================================================== */
+
+/*
+ * Cho component cần full chiều ngang của mobile viewport.
+ */
+.full-width {
+  width: 100%;
+}
+
+/* ==========================================================================
+CONTENT CONTAINER
+========================================================================== */
+
+/*
+ * Giới hạn content text để typography không bị kéo quá rộng.
+ *
+ * Dùng bên trong .app-viewport.
+ */
+.content-container {
+  width: 100%;
+  max-width: var(--content-width-md);
+
+  margin-inline: auto;
+}
+
+/*
+ * Mobile-first:
+ * không thêm horizontal padding ở đây vì .screen-section
+ * đã chịu trách nhiệm cho safe-area/padding.
+ */
+.content-container--narrow {
+  max-width: var(--content-width-sm);
+}
+
+.content-container--wide {
+  max-width: var(--content-width-lg);
+}
+
+/* ==========================================================================
+DESKTOP PRESENTATION
+========================================================================== */
+
+/*
+ * Desktop không biến thành desktop layout.
+ *
+ * Chúng ta chỉ tăng khoảng không xung quanh mobile experience.
+ *
+ * App viewport vẫn giữ max-width 430px.
+ */
+@media (min-width: 768px) {
+  .app-shell {
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-viewport {
+    /*
+     * Không cần height cố định.
+     *
+     * Page vẫn scroll tự nhiên.
+     */
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+}
+
+/* ==========================================================================
+LANDSCAPE
+========================================================================== */
+
+/*
+ * Một số điện thoại xoay ngang sẽ có viewport rất thấp.
+ *
+ * Không thay đổi width architecture.
+ * Chỉ giảm vertical padding để content có thêm không gian.
+ */
+@media (orientation: landscape) and (max-height: 600px) {
+  .screen-section {
+    padding-top: max(12px, var(--safe-top));
+    padding-bottom: max(12px, var(--safe-bottom));
+  }
+}
+
+/* ==========================================================================
+REDUCED MOTION
+========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell,
+  .app-viewport,
+  .app-page,
+  .screen-section {
+    scroll-behavior: auto;
+  }
+}
+
+
+---oOo---
+
+E:\Code\graduation\src\assets\css\main.css
+/* ==========================================================================
+GRADUATION INVITATION — TAILWIND ENTRY
+========================================================================== */
+
+@import './base.css';
+@import './layout.css';
+@import './background.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+GLOBAL TAILWIND FOUNDATION
+========================================================================== */
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+/* ==========================================================================
+BRAND UTILITIES
+========================================================================== */
+
+@layer utilities {
+  .text-gold-gradient {
+    background: var(--gradient-gold);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gold-metallic {
+    background: var(--gradient-gold-metallic);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-gold-gradient {
+    background: var(--gradient-gold);
+  }
+
+  .bg-gold-metallic {
+    background: var(--gradient-gold-metallic);
+  }
+
+  .bg-wine-gradient {
+    background: var(--gradient-wine);
+  }
+
+  .glass-dark {
+    background: rgba(42, 0, 2, 0.58);
+    border: 1px solid var(--color-border);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-gold {
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid var(--color-gold-border);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .safe-top {
+    padding-top: var(--safe-top);
+  }
+
+  .safe-right {
+    padding-right: var(--safe-right);
+  }
+
+  .safe-bottom {
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .safe-left {
+    padding-left: var(--safe-left);
+  }
+
+  .min-h-screen-safe {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  .h-screen-safe {
+    height: 100svh;
+    height: 100dvh;
+  }
+}
+
+/* ==========================================================================
+GLOBAL FORM / INTERACTION
+========================================================================== */
+
+@layer components {
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .cinematic-transition {
+    transition:
+      opacity var(--duration-cinematic) var(--ease-smooth),
+      transform var(--duration-cinematic) var(--ease-smooth);
+  }
+}
+
+
+---oOo---
+
+E:\Code\graduation\src\components\common\HorizontalFooterOrnamentComp.vue
+<template>
+  <div class="horizontal-footer-ornament-comp" aria-hidden="true">
+    <span></span>
+    <i></i>
+    <span></span>
+  </div>
+</template>
+
+<style>
+.horizontal-footer-ornament-comp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 16px 0;
+  gap: 9px;
+}
+
+.horizontal-footer-ornament-comp span {
+  width: 48px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--color-gold-border));
+}
+
+.horizontal-footer-ornament-comp span:last-child {
+  background: linear-gradient(90deg, var(--color-gold-border), transparent);
+}
+
+.horizontal-footer-ornament-comp i {
+  width: 6px;
+  height: 6px;
+
+  border: 1px solid var(--color-gold-400);
+
+  transform: rotate(45deg);
+
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\common\HorizontalHeaderOrnamentComp.vue
+<template>
+  <div class="horizontal-header-ornament-comp" aria-hidden="true">
+    <span></span>
+    <span class="horizontal-header-ornament-comp-diamond"></span>
+    <span></span>
+  </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+.horizontal-header-ornament-comp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 16px 0;
+  gap: 9px;
+}
+
+.horizontal-header-ornament-comp > span:first-child,
+.horizontal-header-ornament-comp > span:last-child {
+  display: block;
+
+  width: 42px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--color-gold-border));
+}
+
+.horizontal-header-ornament-comp > span:last-child {
+  background: linear-gradient(90deg, var(--color-gold-border), transparent);
+}
+
+.horizontal-header-ornament-comp-diamond {
+  display: block;
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--color-gold-500);
+
+  transform: rotate(45deg);
+
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\layout\AppBackground.vue
+<template>
+  <div class="app-background" aria-hidden="true">
+    <!-- Ambient light -->
+    <div class="background-orb background-orb--gold"></div>
+
+    <div class="background-orb background-orb--wine"></div>
+
+    <div class="background-orb background-orb--deep-wine"></div>
+
+    <!-- Subtle particles with depth of field -->
+    <div class="background-particles">
+      <span class="background-particle background-particle--small background-particle--1"></span>
+      <span class="background-particle background-particle--medium background-particle--2"></span>
+      <span class="background-particle background-particle--large background-particle--3"></span>
+      <span class="background-particle background-particle--small background-particle--4"></span>
+      <span class="background-particle background-particle--medium background-particle--5"></span>
+      <span class="background-particle background-particle--large background-particle--6"></span>
+    </div>
+
+    <!-- Soft vignette -->
+    <div class="background-vignette"></div>
+  </div>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\layout\AppViewport.vue
+<script setup>
+import { RouterView } from 'vue-router'
+import AppBackground from './AppBackground.vue'
+</script>
+
+<template>
+  <div class="app-shell">
+    <AppBackground />
+
+    <main class="app-viewport">
+      <RouterView />
+    </main>
+  </div>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\CollectionActionComp.vue
+<template>
+  <footer class="collection-photofooter">
+    <!-- Decorative line -->
+
+    <div class="collection-photoline"></div>
+
+    <!-- Description -->
+
+    <p>Những kỷ niệm đẹp luôn xứng đáng được lưu giữ.</p>
+
+    <!-- Collection actions -->
+
+    <div class="collection-photobuttons">
+      <button type="button" class="collection-photocard" @click="goToCollection('before')">
+        <span class="collection-photocard-number">01</span>
+
+        <span class="collection-photocard-icon">✦</span>
+
+        <span class="collection-photocard-title">
+          Trước Lễ<br />
+          (Cá nhân)
+        </span>
+
+        <span class="collection-photocard-arrow">↗</span>
+      </button>
+
+      <button type="button" class="collection-photocard" @click="goToCollection('friends')">
+        <span class="collection-photocard-number">02</span>
+
+        <span class="collection-photocard-icon">♢</span>
+
+        <span class="collection-photocard-title">
+          Sau Lễ<br />
+          (Bạn Bè)
+        </span>
+
+        <span class="collection-photocard-arrow">↗</span>
+      </button>
+
+      <button type="button" class="collection-photocard" @click="goToCollection('family')">
+        <span class="collection-photocard-number">03</span>
+
+        <span class="collection-photocard-icon">♡</span>
+
+        <span class="collection-photocard-title">
+          Sau Lễ<br />
+          (Gia Đình)
+        </span>
+
+        <span class="collection-photocard-arrow">↗</span>
+      </button>
+    </div>
+  </footer>
 </template>
 
 <script setup>
-import InvitationLetterComp from '@/components/InvitationLetterComp.vue'
-import PersonalNoteComp from '@/components/PersonalNoteComp.vue'
-import CollectionPhotoComp from '@/components/CollectionPhotoComp.vue'
-import ConfirmParticipationComp from '@/components/ConfirmParticipationComp.vue'
-import ThankYouComp from '@/components/ThankYouComp.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goToCollection = (type) => {
+  router.push({
+    name: 'collection',
+    query: { type },
+  })
+}
 </script>
 
+<style scoped>
+/* =====================================================
+   FOOTER
+===================================================== */
 
----
+.collection-photofooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-src\components\InvitationLetterComp.vue
+  text-align: center;
+}
 
+/* =====================================================
+   LINE
+===================================================== */
+
+.collection-photoline {
+  width: 70px;
+  height: 1px;
+
+  margin-bottom: 18px;
+
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
+}
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.collection-photofooter p {
+  max-width: 280px;
+
+  margin: 0 0 24px;
+
+  color: #64748b;
+
+  font-family: var(--font-serif), Georgia, serif;
+
+  font-size: 13px;
+  font-style: italic;
+
+  line-height: 1.7;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.collection-photobuttons {
+  width: 100%;
+  max-width: 560px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin: 0 auto;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.collection-photocard {
+  position: relative;
+
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 18px;
+
+  color: #d4af37;
+
+  background:
+    radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.1), transparent 45%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(4, 8, 20, 0.92));
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* =====================================================
+   INNER BORDER
+===================================================== */
+
+.collection-photocard::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: inherit;
+
+  pointer-events: none;
+}
+
+/* =====================================================
+   GLOW
+===================================================== */
+
+.collection-photocard::after {
+  content: '';
+
+  position: absolute;
+
+  width: 80px;
+  height: 80px;
+
+  top: 50%;
+  left: 50%;
+
+  border-radius: 50%;
+
+  background: rgba(212, 175, 55, 0.08);
+
+  filter: blur(25px);
+
+  opacity: 0;
+
+  transform: translate(-50%, -50%);
+
+  transition: opacity 0.4s ease;
+
+  pointer-events: none;
+}
+
+.collection-photocard:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(212, 175, 55, 0.7);
+
+  background:
+    radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.16), transparent 50%),
+    linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(4, 8, 20, 0.96));
+
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(212, 175, 55, 0.08);
+}
+
+.collection-photocard:hover::after {
+  opacity: 1;
+}
+
+/* =====================================================
+   NUMBER
+===================================================== */
+
+.collection-photocard-number {
+  position: absolute;
+
+  top: 12px;
+  left: 13px;
+
+  color: rgba(200, 169, 81, 0.5);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+}
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.collection-photocard-icon {
+  position: relative;
+  z-index: 2;
+
+  margin-bottom: 12px;
+
+  color: #d4af37;
+
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  line-height: 1;
+
+  text-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+
+  transition:
+    transform 0.4s ease,
+    color 0.3s ease;
+}
+
+.collection-photocard:hover .collection-photocard-icon {
+  color: #f0d878;
+
+  transform: scale(1.12);
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.collection-photocard-title {
+  position: relative;
+  z-index: 2;
+
+  color: #e2e8f0;
+
+  font-family: var(--font-serif), Georgia, serif;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  line-height: 1.45;
+
+  text-align: center;
+
+  transition: color 0.3s ease;
+}
+
+.collection-photocard:hover .collection-photocard-title {
+  color: #fff;
+}
+
+/* =====================================================
+   ARROW
+===================================================== */
+
+.collection-photocard-arrow {
+  position: absolute;
+
+  right: 12px;
+  bottom: 11px;
+
+  color: rgba(200, 169, 81, 0.55);
+
+  font-size: 14px;
+
+  line-height: 1;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.collection-photocard:hover .collection-photocard-arrow {
+  color: #d4af37;
+
+  transform: translate(2px, -2px);
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (min-width: 640px) {
+  .collection-photobuttons {
+    max-width: 350px;
+
+    gap: 16px;
+  }
+
+  .collection-photocard {
+    border-radius: 20px;
+  }
+
+  .collection-photocard-title {
+    font-size: 13px;
+  }
+
+  .collection-photocard-icon {
+    font-size: 22px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+  .collection-photofooter p {
+    margin-bottom: 20px;
+
+    font-size: 12px;
+  }
+
+  .collection-photobuttons {
+    max-width: 300px;
+
+    gap: 9px;
+  }
+
+  .collection-photocard {
+    padding: 14px 7px;
+
+    border-radius: 14px;
+  }
+
+  .collection-photocard-number {
+    top: 9px;
+    left: 9px;
+
+    font-size: 7px;
+  }
+
+  .collection-photocard-icon {
+    margin-bottom: 9px;
+
+    font-size: 16px;
+  }
+
+  .collection-photocard-title {
+    font-size: 9.5px;
+
+    line-height: 1.4;
+  }
+
+  .collection-photocard-arrow {
+    right: 8px;
+    bottom: 8px;
+
+    font-size: 11px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+  .collection-photobuttons {
+    gap: 6px;
+  }
+
+  .collection-photocard {
+    padding-inline: 5px;
+
+    border-radius: 12px;
+  }
+
+  .collection-photocard-number {
+    top: 7px;
+    left: 7px;
+  }
+
+  .collection-photocard-icon {
+    font-size: 14px;
+  }
+
+  .collection-photocard-title {
+    font-size: 8.5px;
+  }
+
+  .collection-photocard-arrow {
+    right: 7px;
+    bottom: 7px;
+
+    font-size: 10px;
+  }
+}
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-photocard,
+  .collection-photocard-icon,
+  .collection-photocard-arrow {
+    transition: none;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\CollectionFrameComp.vue
 <template>
-  <article class="invitation-letter" aria-labelledby="invitation-title">
-    <!-- =========================================
-         HEADER
-    ========================================== -->
-
-    <header class="invitation-header">
-      <h1 id="invitation-title" class="invitation-title">
-        {{ event.title }}
-      </h1>
-
-      <div class="invitation-ornament" aria-hidden="true">
-        <span></span>
-        <i></i>
-        <span></span>
-      </div>
-    </header>
-
-    <!-- =========================================
-         INVITATION
-    ========================================== -->
-
-    <div v-if="guest" class="invitation-body">
-      <p class="invitation-opening">Thân mời</p>
-
-      <p class="invitation-name capitalize">
-        <span v-show="guest.show">{{ guest.salutation }}</span>
-        {{ guest.name }}
-      </p>
-
-      <p class="invitation-text italic">
-        <span>đến tham dự buổi</span>
-        <span> Lễ tốt nghiệp của </span>
-        <span> {{ guest.pronoun }} </span>
-      </p>
-
-      <!-- =======================================
-           EVENT INFORMATION
-      ======================================== -->
-
-      <div class="event-info">
-        <!-- Thời gian -->
-        <div class="event-column">
-          <p class="event-label">Thời gian</p>
-
-          <p class="event-value event-value--large">
-            {{ guest.time }}
-          </p>
-
-          <p class="event-value font-medium">
-            {{ event.date }}
-          </p>
-
-          <p class="event-value italic">( {{ event.weekday }} )</p>
+  <div class="collection-photogallery">
+    <div
+      v-for="(photo, index) in previewPhotos"
+      :key="photo.id"
+      class="collection-photoitem"
+      :class="{
+        'collection-photoitem--featured': index === 0,
+        'collection-photoitem--offset': index === 1,
+      }"
+    >
+      <div class="collection-photoframe">
+        <div class="collection-photoimage">
+          <img :src="photo.src" :alt="photo.alt" loading="lazy" />
         </div>
 
-        <!-- Divider -->
-        <div class="event-divider" aria-hidden="true"></div>
-
-        <!-- Địa điểm -->
-        <div class="event-column">
-          <p class="event-label">Địa điểm</p>
-
-          <p class="event-value event-value--large">
-            {{ guest.zone }}
-          </p>
-
-          <a
-            href="https://maps.app.goo.gl/rDUpeLEy16sVJ1qK6"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <p class="event-value">
-              {{ event.venue }}
-            </p>
-
-            <p class="event-value italic">( {{ event.address }} )</p>
-          </a>
-        </div>
+        <div class="collection-photoshine"></div>
       </div>
+    </div>
+  </div>
+</template>
 
-      <!-- =======================================
-           CLOSING
-      ======================================== -->
+<script setup>
+import photo01 from '@/assets/collection/photo-01.jpg'
+import photo02 from '@/assets/collection/photo-02.jpg'
+import photo03 from '@/assets/collection/photo-03.jpg'
 
-      <p class="invitation-closing">
-        <span>Sự hiện diện của {{ guest.salutation }}</span>
-        <span> là niềm vinh dự lớn đối với {{ guest.pronoun }}</span>
+const previewPhotos = [
+  {
+    id: 'preview-01',
+    src: photo01,
+    alt: 'Graduation memory',
+  },
+  {
+    id: 'preview-02',
+    src: photo02,
+    alt: 'Graduation memory',
+  },
+  {
+    id: 'preview-03',
+    src: photo03,
+    alt: 'Graduation memory',
+  },
+]
+</script>
+
+<style scoped>
+/* =====================================================
+   GALLERY
+===================================================== */
+
+.collection-photogallery {
+  position: relative;
+
+  min-height: 300px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  max-width: 560px;
+
+  margin: 0 auto 42px;
+}
+
+/* =====================================================
+   PHOTO ITEM
+===================================================== */
+
+.collection-photoitem {
+  position: relative;
+
+  height: 190px;
+
+  transform: rotate(-2deg);
+
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+.collection-photoitem:nth-child(2) {
+  transform: rotate(2.5deg);
+}
+
+.collection-photoitem:nth-child(3) {
+  transform: rotate(-1deg);
+}
+
+.collection-photoitem:hover {
+  z-index: 5;
+
+  transform: translateY(-8px) rotate(0deg);
+
+  filter: brightness(1.08);
+}
+
+.collection-photoitem--featured {
+  grid-column: span 2;
+
+  height: 250px;
+
+  transform: rotate(-1deg);
+}
+
+.collection-photoitem--featured:hover {
+  transform: translateY(-8px) rotate(0deg);
+}
+
+/* =====================================================
+   PHOTO FRAME
+===================================================== */
+
+.collection-photoframe {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 7px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(226, 232, 240, 0.85));
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(212, 175, 55, 0.2);
+
+  overflow: hidden;
+}
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.collection-photoimage {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+}
+
+.collection-photoimage img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  filter: saturate(0.9);
+
+  transition:
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+.collection-photoitem:hover img {
+  transform: scale(1.06);
+
+  filter: saturate(1.05);
+}
+
+/* =====================================================
+   SHINE
+===================================================== */
+
+.collection-photoshine {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.18) 45%,
+    transparent 70%
+  );
+
+  transform: translateX(-130%);
+
+  transition: transform 0.8s ease;
+}
+
+.collection-photoitem:hover .collection-photoshine {
+  transform: translateX(130%);
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (min-width: 640px) {
+  .collection-photogallery {
+    gap: 18px;
+  }
+
+  .collection-photoitem {
+    height: 220px;
+  }
+
+  .collection-photoitem--featured {
+    height: 290px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+  .collection-photogallery {
+    min-height: 255px;
+
+    gap: 10px;
+
+    margin-bottom: 36px;
+  }
+
+  .collection-photoitem {
+    height: 150px;
+  }
+
+  .collection-photoitem--featured {
+    height: 205px;
+  }
+
+  .collection-photoframe {
+    padding: 5px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+  .collection-photogallery {
+    min-height: 220px;
+  }
+
+  .collection-photoitem {
+    height: 130px;
+  }
+
+  .collection-photoitem--featured {
+    height: 180px;
+  }
+}
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-photoitem,
+  .collection-photoimage img,
+  .collection-photoshine {
+    transition: none;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\CollectionTitleComp.vue
+<template>
+  <header class="collection-photoheader">
+    <h2 class="collection-phototitle">Hành trình <em>Rực rỡ</em></h2>
+  </header>
+</template>
+
+<style scoped>
+/* =====================================================
+   HEADER
+===================================================== */
+
+.collection-photoheader {
+  margin-bottom: 42px;
+
+  text-align: center;
+}
+
+.collection-phototitle {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-family: var(--font-serif), Georgia, serif;
+
+  font-size: clamp(32px, 7vw, 48px);
+  font-weight: 500;
+
+  line-height: 1.12;
+
+  letter-spacing: -0.02em;
+}
+
+.collection-phototitle em {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #d4af37;
+
+  font-family: var(--font-script), cursive;
+
+  font-size: 1.12em;
+  font-weight: 400;
+
+  line-height: 1.1;
+
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+  .collection-photoheader {
+    margin-bottom: 34px;
+  }
+
+  .collection-phototitle {
+    font-size: 31px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+  .collection-phototitle {
+    font-size: 28px;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\ConfirmFormComp.vue
+<template>
+  <form class="confirm-form" @submit.prevent="handleSubmit">
+    <!-- NAME -->
+
+    <div class="form-field">
+      <label for="guest-name" class="form-label"> Người gửi </label>
+
+      <input
+        id="guest-name"
+        v-model="form.name"
+        type="text"
+        class="form-input capitalize"
+        readonly
+      />
+    </div>
+
+    <!-- PARTICIPATION -->
+
+    <div class="form-field">
+      <label for="guest-participation" class="form-label"> Tham gia </label>
+
+      <select id="guest-participation" v-model="form.participation" class="form-select">
+        <option value="" disabled>Chọn câu trả lời của bạn</option>
+
+        <option v-for="option in participationOptions" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
+    <!-- MESSAGE -->
+
+    <div class="form-field">
+      <label for="guest-message" class="form-label">
+        Lời nhắn
+        <span class="form-label-optional">(không bắt buộc)</span>
+      </label>
+
+      <textarea
+        id="guest-message"
+        v-model="form.message"
+        class="form-textarea"
+        rows="4"
+        maxlength="500"
+        placeholder="Bạn có điều gì muốn nhắn nhủ để mình tiếp đón chu đáo hơn không?"
+      ></textarea>
+    </div>
+
+    <!-- SUBMIT -->
+
+    <button type="submit" class="submit-button" :disabled="isSubmitting || !form.participation">
+      <span v-if="isSubmitting">Đang gửi...</span>
+      <span v-else>Gửi xác nhận</span>
+    </button>
+  </form>
+</template>
+
+<script setup>
+import { reactive, ref } from 'vue'
+
+import { useGuest } from '@/composables/useGuest'
+import { apiService } from '@/services/api'
+
+const { getCurrentGuest } = useGuest()
+
+const guest = getCurrentGuest()
+
+const isSubmitting = ref(false)
+
+const participationOptions = [
+  'Chắc chắn tham gia nhé!',
+  'Để sắp xếp rồi báo sau nha!',
+  'Hôm đó kẹt lịch mất rồi!',
+]
+
+const form = reactive({
+  name: guest.name,
+  participation: '',
+  message: '',
+})
+
+const handleSubmit = async () => {
+  if (!guest) {
+    console.error('[RSVP] Không tìm thấy guest.')
+    return
+  }
+
+  if (!form.participation) {
+    console.warn('[RSVP] Chưa chọn trạng thái tham gia.')
+    return
+  }
+
+  if (isSubmitting.value) {
+    return
+  }
+
+  isSubmitting.value = true
+
+  const payload = {
+    id: guest.id,
+    name: form.name,
+    confirm: form.participation,
+    message: form.message.trim(),
+  }
+
+  console.log('[RSVP] Bắt đầu gửi...')
+  console.log('[RSVP] Payload:', payload)
+
+  try {
+    const result = await apiService.submitRSVP(payload)
+
+    console.log('[RSVP] API response:', result)
+
+    if (result?.success) {
+      console.log('[RSVP] Gửi thành công.')
+
+      form.message = ''
+    } else {
+      console.error('[RSVP] Backend trả về lỗi:', result)
+    }
+  } catch (error) {
+    console.error('[RSVP] Lỗi submit:', error)
+  } finally {
+    isSubmitting.value = false
+    console.log('[RSVP] Kết thúc request.')
+  }
+}
+</script>
+
+<style scoped>
+/* =========================================================
+   FORM
+========================================================= */
+
+.confirm-form {
+  margin-top: 42px;
+}
+
+.form-field {
+  margin: 0 0 28px;
+  padding: 0;
+
+  border: 0;
+}
+
+.form-label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+
+  text-align: start;
+}
+
+.form-label-optional {
+  color: var(--color-slate-500);
+
+  font-size: 9px;
+  font-weight: 400;
+
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form-input,
+.form-textarea {
+  width: 100%;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-slate-100);
+
+  background: var(--color-surface-soft);
+
+  outline: none;
+
+  transition:
+    border-color var(--duration-normal) ease,
+    background-color var(--duration-normal) ease,
+    box-shadow var(--duration-normal) ease;
+}
+
+.form-input {
+  height: 48px;
+
+  padding: 0 16px;
+
+  font-family: var(--font-serif);
+  font-size: 17px;
+}
+
+.form-textarea {
+  min-height: 112px;
+
+  padding: 13px 16px;
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+
+  line-height: 1.6;
+
+  resize: none;
+}
+
+.form-textarea::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-gold-border-strong);
+
+  background: var(--color-gold-surface);
+
+  box-shadow: 0 0 0 3px var(--color-gold-glow);
+}
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form-select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 42px 0 16px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-slate-200);
+
+  background-color: var(--color-surface-soft);
+
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.4;
+
+  outline: none;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-gold-400) 50%),
+    linear-gradient(135deg, var(--color-gold-400) 50%, transparent 50%);
+
+  background-position:
+    calc(100% - 18px) 20px,
+    calc(100% - 13px) 20px;
+
+  background-size:
+    5px 5px,
+    5px 5px;
+
+  background-repeat: no-repeat;
+
+  transition:
+    border-color var(--duration-normal) ease,
+    background-color var(--duration-normal) ease,
+    box-shadow var(--duration-normal) ease;
+}
+
+.form-select:hover {
+  border-color: var(--color-border-hover);
+
+  background-color: var(--color-surface-hover);
+}
+
+.form-select:focus {
+  border-color: var(--color-gold-border-strong);
+
+  background-color: var(--color-gold-surface);
+
+  box-shadow: 0 0 0 3px var(--color-gold-glow);
+}
+
+.form-select option {
+  color: var(--color-slate-900);
+
+  background: var(--color-white);
+
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.submit-button {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 4px;
+
+  border: 1px solid var(--color-gold-border-strong);
+  border-radius: var(--radius-md);
+
+  color: var(--color-navy-950);
+
+  background: var(--gradient-gold);
+
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-gold);
+
+  transition:
+    opacity var(--duration-normal) ease,
+    transform var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  box-shadow:
+    0 14px 40px rgba(212, 175, 55, 0.2),
+    0 0 24px rgba(212, 175, 55, 0.08);
+
+  transform: translateY(-1px);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .confirm-form * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\ConfirmTitleComp.vue
+<template>
+  <header class="confirm-header">
+    <h2 id="confirm-title" class="confirm-title">Bạn sẽ đến chứ?</h2>
+
+    <p class="confirm-description italic">Hãy cho mình biết để tiếp đón chu đáo hơn nhé !</p>
+  </header>
+</template>
+
+<script setup></script>
+
+<style scoped>
+/* =========================================================
+   HEADER
+========================================================= */
+
+.confirm-header {
+  text-align: center;
+}
+
+.confirm-title {
+  margin-top: 12px;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-signature);
+  font-size: 42px;
+  font-weight: 400;
+
+  line-height: 42px;
+}
+
+.confirm-description {
+  margin-top: 10px;
+
+  color: var(--color-slate-400);
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+
+  line-height: 1.6;
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\LetterClosingComp.vue
+<template>
+  <p class="invitation-closing">
+    <span>Sự hiện diện của {{ guest.salutation }}</span>
+    <span> là niềm vinh dự lớn đối với {{ guest.pronoun }}</span>
+  </p>
+
+  <HorizontalHeaderOrnamentComp />
+</template>
+
+<script setup>
+import HorizontalHeaderOrnamentComp from '../common/HorizontalHeaderOrnamentComp.vue'
+
+import { useGuest } from '@/composables/useGuest'
+
+const { getCurrentGuest } = useGuest()
+
+const guest = getCurrentGuest()
+</script>
+
+<style scoped>
+/* =========================================================
+   CLOSING
+========================================================= */
+
+.invitation-closing {
+  width: 410px;
+  max-width: 100%;
+
+  margin: 56px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+
+  font-style: italic;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+.invitation-contact {
+  width: 410px;
+  max-width: 100%;
+
+  margin: 56px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\LetterInfoComp.vue
+<template>
+  <div class="event-info">
+    <!-- Thời gian -->
+    <div class="event-column">
+      <p class="event-label">Thời gian</p>
+
+      <p class="event-value event-value--large">
+        {{ guest.time }}
       </p>
+
+      <p class="event-value font-medium">
+        {{ event.date }}
+      </p>
+
+      <p class="event-value italic">( {{ event.weekday }} )</p>
     </div>
 
-    <!-- =========================================
-         FALLBACK
-    ========================================== -->
+    <!-- Divider -->
+    <div class="event-divider" aria-hidden="true"></div>
 
-    <div v-else class="invitation-empty">
-      <p>Không tìm thấy thông tin khách mời.</p>
+    <!-- Địa điểm -->
+    <div class="event-column">
+      <p class="event-label">Địa điểm</p>
+
+      <p class="event-value event-value--large">
+        {{ guest.zone }}
+      </p>
+
+      <a href="https://maps.app.goo.gl/rDUpeLEy16sVJ1qK6" target="_blank" rel="noopener noreferrer">
+        <p class="event-value">
+          {{ event.venue }}
+        </p>
+
+        <p class="event-value italic">( {{ event.address }} )</p>
+      </a>
     </div>
-
-    <!-- =========================================
-         FOOTER ORNAMENT
-    ========================================== -->
-
-    <footer class="invitation-footer" aria-hidden="true">
-      <span></span>
-      <span class="invitation-footer-diamond"></span>
-      <span></span>
-    </footer>
-  </article>
+  </div>
 </template>
 
 <script setup>
@@ -159,101 +2764,312 @@ const guest = getCurrentGuest()
 
 <style scoped>
 /* =========================================================
-   INVITATION LETTER
+   EVENT INFORMATION
    ---------------------------------------------------------
-   IMPORTANT:
-   - Không sử dụng vw
-   - Không sử dụng vh
-   - Không sử dụng clamp()
-   - Không thay đổi typography theo breakpoint
-   - Mobile và desktop dùng cùng một kích thước
+   Layout:
+   THỜI GIAN : ĐỊA ĐIỂM
+       1     :    2
+
+   time / zone = primary
+   date / venue / address = secondary
 ========================================================= */
 
-.invitation-letter {
+.event-info {
   position: relative;
 
-  width: 100%;
-  max-width: 560px;
+  display: grid;
 
-  padding: 56px 32px;
+  grid-template-columns: 2fr 1px 5fr;
 
-  color: var(--color-text);
+  width: 361px;
+  padding: 16px 0;
+  margin: 56px auto 0;
 
-  text-align: center;
-
-  overflow: hidden;
+  align-items: stretch;
 }
 
 /* =========================================================
-   HEADER
+   ARTISTIC BORDER
 ========================================================= */
 
-.invitation-header {
+.event-info::before {
+  content: '';
+
+  position: absolute;
+
+  inset: -16px -18px;
+
+  pointer-events: none;
+
+  border-top: 1px solid rgba(212, 175, 55, 0.28);
+
+  border-bottom: 1px solid rgba(212, 175, 55, 0.28);
+
+  opacity: 0.8;
+}
+
+/* =========================================================
+   CORNER ORNAMENT
+========================================================= */
+
+.event-info::after {
+  content: '';
+
+  position: absolute;
+
+  inset: -19px -21px;
+
+  pointer-events: none;
+
+  border-radius: 2px;
+
+  opacity: 0.65;
+}
+
+/* =========================================================
+   EVENT COLUMN
+========================================================= */
+
+.event-column {
+  position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  width: 100%;
+  min-width: 0;
+
+  text-align: center;
 }
 
-.invitation-title {
-  width: 420px;
-  max-width: 100%;
+/* =========================================================
+   EVENT LABEL
+========================================================= */
+
+.event-label {
+  width: 100%;
+
+  margin: 0 0 13px;
 
   color: var(--color-gold-400);
 
-  font-family: var(--font-serif);
-  font-size: 18px;
+  font-family: var(--font-sans);
+  font-size: 9px;
   font-weight: 600;
 
-  letter-spacing: 0.4px;
-  line-height: 24px;
+  letter-spacing: 2px;
+  line-height: 13px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   PRIMARY EVENT VALUE
+========================================================= */
+
+.event-value--large {
+  width: 100%;
+
+  margin: 0;
+
+  color: var(--color-white);
+
+  font-family: var(--font-serif);
+
+  font-size: 24px;
+  font-weight: 500;
+
+  letter-spacing: 0.3px;
+  line-height: 30px;
 
   text-align: center;
 
   text-wrap: balance;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.08);
 }
 
 /* =========================================================
-   HEADER ORNAMENT
+   TIME SPECIAL
 ========================================================= */
 
-.invitation-ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.event-column:first-child .event-value--large {
+  color: var(--color-gold-light);
 
-  gap: 8px;
+  font-size: 26px;
+  font-weight: 500;
 
-  margin-top: 22px;
+  letter-spacing: 0.5px;
 
-  height: 7px;
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
 }
 
-.invitation-ornament span {
-  display: block;
+/* =========================================================
+   ZONE SPECIAL
+========================================================= */
 
-  width: 34px;
-  height: 1px;
+.event-column:last-child .event-value--large {
+  color: var(--color-gold-light);
 
-  background: linear-gradient(90deg, transparent, var(--color-gold-600));
+  font-size: 26px;
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
 }
 
-.invitation-ornament span:last-child {
-  background: linear-gradient(90deg, var(--color-gold-600), transparent);
+/* =========================================================
+   SECONDARY EVENT VALUE
+========================================================= */
+
+.event-value {
+  width: 100%;
+  max-width: 210px;
+
+  margin: 5px 0 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  line-height: 20px;
+
+  text-align: center;
+
+  text-wrap: balance;
+
+  overflow-wrap: break-word;
 }
 
-.invitation-ornament i {
-  display: block;
+/* =========================================================
+   REMOVE OLD MUTED BEHAVIOR
+========================================================= */
+
+.event-value--muted {
+  margin-top: 5px;
+
+  color: var(--color-slate-400);
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+
+  line-height: 16px;
+}
+
+/* =========================================================
+   VERTICAL ARTISTIC DIVIDER
+========================================================= */
+
+.event-divider {
+  position: relative;
+
+  width: 1px;
+  min-width: 1px;
+
+  height: 100%;
+
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.12) 8%,
+    rgba(212, 175, 55, 0.52) 25%,
+    rgba(212, 175, 55, 0.52) 75%,
+    rgba(212, 175, 55, 0.12) 92%,
+    transparent 100%
+  );
+}
+
+/* =========================================================
+   DIVIDER CENTER ORNAMENT
+========================================================= */
+
+.event-divider::after {
+  content: '';
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
 
   width: 5px;
   height: 5px;
 
-  border: 1px solid var(--color-gold-400);
+  background: var(--color-navy-950);
 
-  transform: rotate(45deg);
+  border: 1px solid var(--color-gold-500);
+
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
 }
 
+/* =========================================================
+   MOBILE CANVAS
+========================================================= */
+
+@media (max-width: 359px) {
+  .event-info {
+    transform: scale(0.94);
+    transform-origin: center top;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .event-info,
+  .event-info::before,
+  .event-info::after,
+  .event-divider,
+  .event-divider::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\LetterInvitationComp.vue
+<template>
+  <div v-if="guest" class="invitation-body">
+    <p class="invitation-opening">Thân mời</p>
+
+    <p class="invitation-name capitalize">
+      <span v-show="guest.show">{{ guest.salutation }}</span>
+      {{ guest.name }}
+    </p>
+
+    <p class="invitation-text italic">
+      <span>đến tham dự buổi</span>
+      <span> Lễ tốt nghiệp của </span>
+      <span> {{ guest.pronoun }} </span>
+    </p>
+  </div>
+
+  <div v-else class="invitation-empty">
+    <p>Không tìm thấy thông tin khách mời.</p>
+  </div>
+</template>
+
+<script setup>
+import { useGuest } from '@/composables/useGuest'
+
+const { getCurrentGuest } = useGuest()
+
+const guest = getCurrentGuest()
+</script>
+
+<style scoped>
 /* =========================================================
    BODY
 ========================================================= */
@@ -395,390 +3211,6 @@ const guest = getCurrentGuest()
 }
 
 /* =========================================================
-   EVENT INFORMATION
-   ---------------------------------------------------------
-   Layout:
-   THỜI GIAN : ĐỊA ĐIỂM
-       1     :    2
-
-   time / zone = primary
-   date / venue / address = secondary
-========================================================= */
-
-.event-info {
-  position: relative;
-
-  display: grid;
-
-  grid-template-columns: 2fr 1px 5fr;
-
-  width: 361px;
-  padding: 16px 0;
-  margin: 56px auto 0;
-
-  align-items: stretch;
-}
-
-/* =========================================================
-   ARTISTIC BORDER
-   ---------------------------------------------------------
-   Không dùng border-box thông thường.
-   Tạo khung bằng pseudo-element để có thể fade
-   và tạo cảm giác editorial / invitation.
-========================================================= */
-
-.event-info::before {
-  content: '';
-
-  position: absolute;
-
-  inset: -16px -18px;
-
-  pointer-events: none;
-
-  border-top: 1px solid rgba(212, 175, 55, 0.28);
-
-  border-bottom: 1px solid rgba(212, 175, 55, 0.28);
-
-  opacity: 0.8;
-}
-
-/* =========================================================
-   CORNER ORNAMENT
-========================================================= */
-
-.event-info::after {
-  content: '';
-
-  position: absolute;
-
-  inset: -19px -21px;
-
-  pointer-events: none;
-
-  border-radius: 2px;
-
-  opacity: 0.65;
-}
-
-/* =========================================================
-   EVENT COLUMN
-========================================================= */
-
-.event-column {
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  min-width: 0;
-
-  text-align: center;
-}
-
-/* =========================================================
-   EVENT LABEL
-   ---------------------------------------------------------
-   Chỉ là heading nhỏ.
-   Không cạnh tranh với time / zone.
-========================================================= */
-
-.event-label {
-  width: 100%;
-
-  margin: 0 0 13px;
-
-  color: var(--color-gold-400);
-
-  font-family: var(--font-sans);
-  font-size: 9px;
-  font-weight: 600;
-
-  letter-spacing: 2px;
-  line-height: 13px;
-
-  text-align: center;
-
-  text-transform: uppercase;
-}
-
-/* =========================================================
-   PRIMARY EVENT VALUE
-   ---------------------------------------------------------
-   Áp dụng cho:
-   - guest.time
-   - guest.zone
-========================================================= */
-
-.event-value--large {
-  width: 100%;
-
-  margin: 0;
-
-  color: var(--color-white);
-
-  font-family: var(--font-serif);
-
-  /*
-   * Hai thông tin quan trọng nhất.
-   */
-  font-size: 24px;
-  font-weight: 500;
-
-  letter-spacing: 0.3px;
-  line-height: 30px;
-
-  text-align: center;
-
-  text-wrap: balance;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.08);
-}
-
-/* =========================================================
-   TIME SPECIAL
-   ---------------------------------------------------------
-   Time nằm ở cột nhỏ nên ưu tiên sự rõ ràng.
-========================================================= */
-
-.event-column:first-child .event-value--large {
-  color: var(--color-gold-light);
-
-  font-size: 26px;
-  font-weight: 500;
-
-  letter-spacing: 0.5px;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
-}
-
-/* =========================================================
-   ZONE SPECIAL
-   ---------------------------------------------------------
-   Zone là thông tin primary thứ hai.
-========================================================= */
-
-.event-column:last-child .event-value--large {
-  color: var(--color-gold-light);
-
-  font-size: 26px;
-  font-weight: 500;
-
-  letter-spacing: 0.5px;
-
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
-}
-
-/* =========================================================
-   SECONDARY EVENT VALUE
-   ---------------------------------------------------------
-   Áp dụng cho:
-   - date
-   - venue
-   - address
-========================================================= */
-
-.event-value {
-  width: 100%;
-  max-width: 210px;
-
-  margin: 5px 0 0;
-
-  color: var(--color-slate-300);
-
-  font-family: var(--font-serif);
-
-  font-size: 14px;
-  font-weight: 500;
-
-  line-height: 20px;
-
-  text-align: center;
-
-  text-wrap: balance;
-
-  overflow-wrap: break-word;
-}
-
-/* =========================================================
-   REMOVE OLD MUTED BEHAVIOR
-========================================================= */
-
-.event-value--muted {
-  margin-top: 5px;
-
-  color: var(--color-slate-400);
-
-  font-family: var(--font-sans);
-  font-size: 10px;
-
-  line-height: 16px;
-}
-
-/* =========================================================
-   VERTICAL ARTISTIC DIVIDER
-   ---------------------------------------------------------
-   Không chạy từ trên xuống dưới một cách cứng.
-   Có fade ở hai đầu.
-========================================================= */
-
-.event-divider {
-  position: relative;
-
-  width: 1px;
-  min-width: 1px;
-
-  height: 100%;
-
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(212, 175, 55, 0.12) 8%,
-    rgba(212, 175, 55, 0.52) 25%,
-    rgba(212, 175, 55, 0.52) 75%,
-    rgba(212, 175, 55, 0.12) 92%,
-    transparent 100%
-  );
-}
-
-/* =========================================================
-   DIVIDER CENTER ORNAMENT
-========================================================= */
-
-.event-divider::after {
-  content: '';
-
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 5px;
-  height: 5px;
-
-  background: var(--color-navy-950);
-
-  border: 1px solid var(--color-gold-500);
-
-  transform: translate(-50%, -50%) rotate(45deg);
-
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
-}
-
-/* =========================================================
-   MOBILE CANVAS
-   ---------------------------------------------------------
-   Giữ nguyên kích thước.
-   Không scale theo viewport.
-========================================================= */
-
-@media (max-width: 359px) {
-  .event-info {
-    transform: scale(0.94);
-    transform-origin: center top;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .event-info,
-  .event-info::before,
-  .event-info::after,
-  .event-divider,
-  .event-divider::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-/* =========================================================
-   CLOSING
-========================================================= */
-
-.invitation-closing {
-  width: 410px;
-  max-width: 100%;
-
-  margin: 56px auto 0;
-
-  color: var(--color-slate-300);
-
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 400;
-
-  font-style: italic;
-
-  text-align: center;
-
-  text-wrap: balance;
-}
-
-.invitation-contact {
-  width: 410px;
-  max-width: 100%;
-
-  margin: 56px auto 0;
-
-  color: var(--color-slate-300);
-
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 400;
-
-  text-align: center;
-
-  text-wrap: balance;
-}
-
-/* =========================================================
-   FOOTER ORNAMENT
-========================================================= */
-
-.invitation-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 9px;
-
-  margin-top: 56px;
-
-  height: 6px;
-}
-
-.invitation-footer > span:first-child,
-.invitation-footer > span:last-child {
-  display: block;
-
-  width: 42px;
-  height: 1px;
-
-  background: linear-gradient(90deg, transparent, var(--color-gold-border));
-}
-
-.invitation-footer > span:last-child {
-  background: linear-gradient(90deg, var(--color-gold-border), transparent);
-}
-
-.invitation-footer-diamond {
-  display: block;
-
-  width: 5px;
-  height: 5px;
-
-  background: var(--color-gold-500);
-
-  transform: rotate(45deg);
-
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
-}
-
-/* =========================================================
    EMPTY STATE
 ========================================================= */
 
@@ -800,28 +3232,316 @@ const guest = getCurrentGuest()
 
   text-align: center;
 }
+</style>
 
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\LetterTitleComp.vue
+<template>
+  <header class="invitation-header">
+    <h1 id="invitation-title" class="invitation-title">
+      {{ event.title }}
+    </h1>
+
+    <HorizontalFooterOrnamentComp />
+  </header>
+</template>
+
+<script setup>
+import HorizontalFooterOrnamentComp from '@/components/common/HorizontalFooterOrnamentComp.vue'
+
+import { EVENT_BASE } from '@/data/data'
+
+const event = EVENT_BASE
+</script>
+
+<style scoped>
 /* =========================================================
-   VERY SMALL SCREEN
-   ---------------------------------------------------------
-   KHÔNG scale typography.
-   Chỉ xử lý trường hợp viewport nhỏ hơn canvas.
+   HEADER
 ========================================================= */
 
-@media (max-width: 359px) {
-  .invitation-letter {
-    padding-left: 20px;
-    padding-right: 20px;
+.invitation-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+.invitation-title {
+  width: 420px;
+  max-width: 100%;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+
+  letter-spacing: 0.4px;
+  line-height: 24px;
+
+  text-align: center;
+
+  text-wrap: balance;
+}
+
+/* =========================================================
+   HEADER ORNAMENT
+========================================================= */
+
+.invitation-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 22px;
+
+  height: 7px;
+}
+
+.invitation-ornament span {
+  display: block;
+
+  width: 34px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--color-gold-600));
+}
+
+.invitation-ornament span:last-child {
+  background: linear-gradient(90deg, var(--color-gold-600), transparent);
+}
+
+.invitation-ornament i {
+  display: block;
+
+  width: 5px;
+  height: 5px;
+
+  border: 1px solid var(--color-gold-400);
+
+  transform: rotate(45deg);
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\NoteBodyComp.vue
+<template>
+  <div class="personal-note-content">
+    <p>
+      Bốn năm trôi qua nhanh như một thoáng<br />
+      Mới ngày nào còn là tân sinh viên<br />
+      Mang theo bao điều chưa từng biết<br />
+      Và những ước mơ còn rất xanh
+    </p>
+
+    <p>
+      Có những ngày chẳng hề dễ dàng<br />
+      Có những lần tưởng mình gục ngã<br />
+      Nhưng rồi vẫn kiên cường bước tiếp<br />
+      Để hôm nay vững vàng nhìn lại
+    </p>
+
+    <p>
+      Bốn năm khép lại bằng trưởng thành<br />
+      Thanh xuân ở lại cùng những người<br />
+      Một hành trình mới đang chờ phía trước<br />
+      Và mình sẵn sàng bước tiếp thôi
+    </p>
+  </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.personal-note-content {
+  margin-top: 48px;
+}
+
+.personal-note-content p {
+  margin: 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+
+  letter-spacing: 0.05px;
+  line-height: 1.85;
+
+  text-align: center;
+}
+
+.personal-note-content p + p {
+  margin-top: 34px;
+}
+
+/* =========================================================
+   LAST PARAGRAPH
+========================================================= */
+
+.personal-note-content p:last-child {
+  color: var(--color-gold-light);
+
+  font-style: italic;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .personal-note-content {
+    margin-top: 40px;
   }
 
-  .event-info {
-    transform: scale(0.94);
-    transform-origin: center top;
+  .personal-note-content p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
 
-    /*
-     * Giữ layout gốc, chỉ thu nhỏ toàn bộ
-     * event block trong trường hợp cực nhỏ.
-     */
+  .personal-note-content p + p {
+    margin-top: 28px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+  .personal-note-content p {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .personal-note-content p + p {
+    margin-top: 25px;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\NoteTitleComp.vue
+<template>
+  <header class="personal-note-header">
+    <p class="personal-note-eyebrow">A NOTE FROM MY HEART</p>
+
+    <h2 id="personal-note-title" class="personal-note-title">Một thoáng nhìn lại</h2>
+
+    <HorizontalHeaderOrnamentComp />
+  </header>
+</template>
+
+<script setup>
+import HorizontalHeaderOrnamentComp from '@/components/common/HorizontalHeaderOrnamentComp.vue'
+</script>
+
+<style scoped>
+/* =========================================================
+   HEADER
+========================================================= */
+
+.personal-note-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.personal-note-eyebrow {
+  margin: 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.28em;
+  line-height: 14px;
+
+  text-transform: uppercase;
+}
+
+.personal-note-title {
+  margin: 12px 0 0;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-signature);
+  font-size: 42px;
+  font-weight: 400;
+
+  line-height: 42px;
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\ThanksBodyComp.vue
+<template>
+  <div class="thanks-body">
+    <p class="thanks-body-message">
+      Cảm ơn vì đã dành một chút thời gian để đọc những dòng này và cùng mình nhìn lại một chặng
+      đường đã qua.
+    </p>
+
+    <p class="thanks-body-message thanks-body-message--secondary">
+      Hẹn gặp bạn trong ngày đặc biệt ấy.
+    </p>
+  </div>
+</template>
+
+<style scoped>
+.thanks-body {
+  width: 100%;
+
+  text-align: center;
+}
+
+.thanks-body-message {
+  max-width: 390px;
+
+  margin: 30px auto 0;
+
+  color: var(--color-slate-300);
+
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+
+  line-height: 1.8;
+}
+
+.thanks-body-message--secondary {
+  margin-top: 16px;
+
+  color: var(--color-slate-400);
+
+  font-style: italic;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+  .thanks-body-message {
+    font-size: 15px;
   }
 }
 
@@ -830,15 +3550,680 @@ const guest = getCurrentGuest()
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .invitation-letter * {
+  .thanks-body * {
     transition: none !important;
     animation: none !important;
   }
 }
 </style>
 
-src\composables\useGuest.js
 
+---oOo---
+
+E:\Code\graduation\src\components\letter\ThanksFooterComp.vue
+<template>
+  <footer class="thanks-footer">
+    <!-- Signature -->
+    <div class="thanks-signature">
+      <span class="thanks-signature-line"></span>
+
+      <p class="thanks-signature-name">Thanh Duy</p>
+
+      <span class="thanks-signature-subtitle"> Graduation · 2026 </span>
+    </div>
+
+    <!-- Footer ornament -->
+  </footer>
+</template>
+
+<style scoped>
+.thanks-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+/* =========================================================
+   SIGNATURE
+========================================================= */
+
+.thanks-signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 54px;
+}
+
+.thanks-signature-line {
+  width: 36px;
+  height: 1px;
+
+  margin-bottom: 13px;
+
+  background: var(--color-gold-border-strong);
+}
+
+.thanks-signature-name {
+  margin: 0;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-signature);
+  font-size: 30px;
+  font-weight: 400;
+
+  line-height: 1.2;
+}
+
+.thanks-signature-subtitle {
+  margin-top: 7px;
+
+  color: var(--color-slate-500);
+
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .thanks-footer * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\letter\ThanksTitleComp.vue
+<template>
+  <div class="thanks-title">
+    <HorizontalFooterOrnamentComp />
+
+    <div class="thanks-title-content">
+      <p class="thanks-title-eyebrow">Hẹn gặp lại</p>
+
+      <h2 id="thank-you-title" class="thanks-title-heading">Cảm ơn bạn</h2>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import HorizontalFooterOrnamentComp from '../common/HorizontalFooterOrnamentComp.vue'
+</script>
+
+<style scoped>
+.thanks-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.thanks-title-content {
+  width: 100%;
+
+  text-align: center;
+}
+
+.thanks-title-eyebrow {
+  margin: 0;
+
+  color: var(--color-gold-400);
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.24em;
+  line-height: 1.4;
+
+  text-transform: uppercase;
+}
+
+.thanks-title-heading {
+  margin: 14px 0 0;
+
+  color: var(--color-gold-light);
+
+  font-family: var(--font-signature);
+  font-size: 52px;
+  font-weight: 400;
+
+  line-height: 1.05;
+
+  text-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+  .thanks-title-heading {
+    font-size: 48px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .thanks-title * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\components\Toast.vue
+<script setup>
+import { useToast } from '@/composables/useToast'
+
+const { state } = useToast()
+</script>
+
+<template>
+  <Transition
+    enter-active-class="toast-enter-active"
+    enter-from-class="toast-enter-from"
+    enter-to-class="toast-enter-to"
+    leave-active-class="toast-leave-active"
+    leave-from-class="toast-leave-from"
+    leave-to-class="toast-leave-to"
+  >
+    <div
+      v-if="state.show"
+      class="toast"
+      :class="`toast--${state.type}`"
+      role="status"
+      aria-live="polite"
+    >
+      <!-- =========================================
+           SHINE
+      ========================================== -->
+
+      <div class="toast-shine" aria-hidden="true"></div>
+
+      <!-- =========================================
+           ACCENT
+      ========================================== -->
+
+      <div class="toast-accent" aria-hidden="true"></div>
+
+      <!-- =========================================
+           ICON
+      ========================================== -->
+
+      <div class="toast-icon-wrap">
+        <span class="toast-icon">
+          {{ state.type === 'success' ? '✓' : state.type === 'error' ? '!' : 'i' }}
+        </span>
+      </div>
+
+      <!-- =========================================
+           CONTENT
+      ========================================== -->
+
+      <div class="toast-content">
+        <p class="toast-title">
+          {{
+            state.type === 'success'
+              ? 'Thành công'
+              : state.type === 'error'
+                ? 'Có lỗi xảy ra'
+                : 'Thông báo'
+          }}
+        </p>
+
+        <p class="toast-message">
+          {{ state.message }}
+        </p>
+      </div>
+
+      <!-- =========================================
+           DECORATION
+      ========================================== -->
+
+      <div class="toast-decoration" aria-hidden="true">
+        <span></span>
+        <i></i>
+        <span></span>
+      </div>
+    </div>
+  </Transition>
+</template>
+
+<style scoped>
+/* =========================================================
+   ROOT
+========================================================= */
+
+.toast {
+  --toast-color: var(--color-gold-400);
+  --toast-color-soft: rgba(212, 175, 55, 0.12);
+  --toast-border: rgba(212, 175, 55, 0.28);
+  --toast-glow: rgba(212, 175, 55, 0.12);
+
+  position: fixed;
+
+  z-index: 9999;
+
+  left: 50%;
+  bottom: 28px;
+
+  display: flex;
+  align-items: center;
+
+  width: 360px;
+  min-height: 72px;
+
+  padding: 14px 18px 14px 14px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--toast-border);
+  border-radius: 18px;
+
+  color: var(--color-slate-100);
+
+  background: linear-gradient(135deg, rgba(20, 24, 31, 0.96), rgba(10, 14, 21, 0.94));
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 35px var(--toast-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transform: translateX(-50%);
+
+  isolation: isolate;
+}
+
+/* =========================================================
+   ACCENT
+========================================================= */
+
+.toast-accent {
+  position: absolute;
+
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+
+  width: 2px;
+
+  border-radius: 0 4px 4px 0;
+
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--toast-color) 25%,
+    var(--toast-color) 75%,
+    transparent
+  );
+
+  box-shadow:
+    0 0 8px var(--toast-color),
+    0 0 18px var(--toast-color);
+}
+
+/* =========================================================
+   SHINE
+========================================================= */
+
+.toast-shine {
+  position: absolute;
+
+  top: -50%;
+  left: -70%;
+
+  width: 55%;
+  height: 200%;
+
+  pointer-events: none;
+
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.055), transparent);
+
+  transform: rotate(18deg);
+
+  animation: toast-shine 2.8s ease-out 0.15s 1;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.toast-icon-wrap {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  width: 40px;
+  height: 40px;
+
+  margin-right: 13px;
+
+  border: 1px solid var(--toast-border);
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--toast-color-soft),
+    rgba(255, 255, 255, 0.015) 70%
+  );
+
+  box-shadow:
+    inset 0 0 15px var(--toast-color-soft),
+    0 0 18px rgba(0, 0, 0, 0.15);
+}
+
+.toast-icon-wrap::before {
+  content: '';
+
+  position: absolute;
+
+  inset: 4px;
+
+  border: 1px solid color-mix(in srgb, var(--toast-color) 22%, transparent);
+
+  border-radius: 50%;
+
+  opacity: 0.6;
+}
+
+.toast-icon {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 21px;
+  height: 21px;
+
+  color: var(--toast-color);
+
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  text-shadow:
+    0 0 10px var(--toast-color),
+    0 0 18px var(--toast-color);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.toast-content {
+  position: relative;
+
+  min-width: 0;
+
+  flex: 1;
+}
+
+.toast-title {
+  margin: 0;
+
+  color: var(--toast-color);
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+
+  text-transform: uppercase;
+}
+
+.toast-message {
+  margin: 4px 0 0;
+
+  color: var(--color-slate-200);
+
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 400;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   DECORATION
+========================================================= */
+
+.toast-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  margin-left: 12px;
+
+  opacity: 0.65;
+}
+
+.toast-decoration span {
+  width: 12px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, var(--toast-color));
+}
+
+.toast-decoration span:last-child {
+  background: linear-gradient(90deg, var(--toast-color), transparent);
+}
+
+.toast-decoration i {
+  width: 4px;
+  height: 4px;
+
+  border: 1px solid var(--toast-color);
+
+  transform: rotate(45deg);
+}
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.toast--success {
+  --toast-color: var(--color-gold-400);
+  --toast-color-soft: rgba(212, 175, 55, 0.12);
+  --toast-border: rgba(212, 175, 55, 0.28);
+  --toast-glow: rgba(212, 175, 55, 0.12);
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.toast--error {
+  --toast-color: #fda4af;
+  --toast-color-soft: rgba(244, 63, 94, 0.1);
+  --toast-border: rgba(244, 63, 94, 0.3);
+  --toast-glow: rgba(244, 63, 94, 0.1);
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.toast--info {
+  --toast-color: #cbd5e1;
+  --toast-color-soft: rgba(148, 163, 184, 0.1);
+  --toast-border: rgba(148, 163, 184, 0.22);
+  --toast-glow: rgba(148, 163, 184, 0.08);
+}
+
+/* =========================================================
+   ENTER ANIMATION
+========================================================= */
+
+.toast-enter-active {
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toast-enter-from {
+  opacity: 0;
+
+  transform: translateX(-50%) translateY(22px) scale(0.94);
+
+  filter: blur(8px);
+}
+
+.toast-enter-to {
+  opacity: 1;
+
+  transform: translateX(-50%) translateY(0) scale(1);
+
+  filter: blur(0);
+}
+
+/* =========================================================
+   LEAVE ANIMATION
+========================================================= */
+
+.toast-leave-active {
+  transition:
+    opacity 240ms ease,
+    transform 300ms cubic-bezier(0.4, 0, 1, 1),
+    filter 240ms ease;
+}
+
+.toast-leave-from {
+  opacity: 1;
+
+  transform: translateX(-50%) translateY(0) scale(1);
+
+  filter: blur(0);
+}
+
+.toast-leave-to {
+  opacity: 0;
+
+  transform: translateX(-50%) translateY(10px) scale(0.97);
+
+  filter: blur(4px);
+}
+
+/* =========================================================
+   SHINE ANIMATION
+========================================================= */
+
+@keyframes toast-shine {
+  0% {
+    left: -70%;
+  }
+
+  100% {
+    left: 130%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .toast {
+    left: 50%;
+    bottom: 20px;
+
+    width: calc(100vw - 32px);
+
+    min-height: 68px;
+
+    padding: 13px 15px 13px 13px;
+
+    border-radius: 17px;
+  }
+
+  .toast-icon-wrap {
+    width: 38px;
+    height: 38px;
+
+    margin-right: 11px;
+  }
+
+  .toast-title {
+    font-size: 9px;
+  }
+
+  .toast-message {
+    font-size: 13px;
+  }
+
+  .toast-decoration {
+    display: none;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-enter-active,
+  .toast-leave-active {
+    transition: opacity 180ms ease;
+  }
+
+  .toast-enter-from,
+  .toast-enter-to,
+  .toast-leave-from,
+  .toast-leave-to {
+    transform: translateX(-50%);
+    filter: none;
+  }
+
+  .toast-shine {
+    animation: none;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\composables\useGuest.js
 import { GUEST_DATA } from '@/data/data'
 
 const STORAGE_KEY = 'guestId'
@@ -901,52 +4286,1778 @@ export function useGuest() {
 }
 
 
+---oOo---
+
+E:\Code\graduation\src\composables\useToast.js
+import { reactive } from 'vue'
+
+const state = reactive({
+  show: false,
+  message: '',
+  type: 'success', // 'success', 'error', 'info'
+})
+
+export function useToast() {
+  const showToast = (message, type = 'success', duration = 3500) => {
+    state.message = message
+    state.type = type
+    state.show = true
+
+    setTimeout(() => {
+      state.show = false
+    }, duration)
+  }
+
+  return {
+    state,
+    showToast,
+  }
+}
 
 
+---oOo---
+
+E:\Code\graduation\src\data\data.js
+// =====================================================
+// EVENT BASE
+// Thông tin chung của chương trình
+// =====================================================
+
+export const EVENT_BASE = {
+  title: "THANH DUY'S GRADUATION CEREMONY",
+
+  date: '01.11.2026',
+
+  tel: '0834 828 525',
+
+  venue: 'Trường Đại học Tôn Đức Thắng',
+
+  address: '19 Nguyễn Hữu Thọ, P. Tân Hưng',
+
+  weekday: 'Thứ bảy',
+}
+
+// =====================================================
+// GUEST DATA
+// Thông tin riêng của từng khách
+// =====================================================
+
+export const GUEST_DATA = [
+  {
+    id: 'anh-huy',
+    name: 'Huy',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'anh-giap',
+    name: 'Giáp',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'anh-tho',
+    name: 'Thọ',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'anh-thang',
+    name: 'Thắng',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'duc-thanh',
+    name: 'Đức Thành',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thanh-tai',
+    name: 'Thành Tài',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'minh-chau',
+    name: 'Minh Châu',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'ngoc-my',
+    name: 'Ngọc Mỹ',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thanh-dieu',
+    name: 'Thanh Diệu',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'kim-thuong',
+    name: 'Kim Thương',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'nhat-truong',
+    name: 'Nhật Trường',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'hong-tuyen',
+    name: 'Hồng Tuyến',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'tham-tuyen',
+    name: 'Thẩm Tuyến',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'cam-giang',
+    name: 'Cẩm Giang',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'my-ngan',
+    name: 'Mỹ Ngân',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'van-hau',
+    name: 'Văn Hậu',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'thanh-trung',
+    name: 'Thành Trung',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'thien-kieu',
+    name: 'Thiên Kiều',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'thanh-hien',
+    name: 'Thanh Hiền',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'anh-dao',
+    name: 'Anh Đào',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'quang-trung',
+    name: 'Quang Trung',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'my-ngoc',
+    name: 'Mỹ Ngọc',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'yen-phung',
+    name: 'Yến Phụng',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thanh-tu',
+    name: 'Thanh Tú',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'quoc-khanh',
+    name: 'Quốc Khánh',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'huu-nhan',
+    name: 'Hữu Nhân',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'tan-tai',
+    name: 'Tấn Tài',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'ngoc-huyen',
+    name: 'Ngọc Huyền',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'ngoc-tinh',
+    name: 'Ngọc Tình',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'tuan-anh',
+    name: 'Tuấn Anh',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'minh-dao',
+    name: 'Minh Đạo',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'quoc-huy',
+    name: 'Quốc Huy',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'phuc-hai',
+    name: 'Phúc Hải',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'kim-khanh',
+    name: 'Kim Khánh',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thanh-tien',
+    name: 'Thanh Tiền',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'khanh-duy',
+    name: 'Khánh Duy',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'minh-hoang',
+    name: 'Minh Hoàng',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'minh-nghia',
+    name: 'Minh Nghĩa',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'huynh-duc',
+    name: 'Huỳnh Đức',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thai-thinh',
+    name: 'Thái Thịnh',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'chi-hieu',
+    name: 'Chí Hiếu',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'hoang-son',
+    name: 'Hoàng Sơn',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'nhat-man',
+    name: 'Nhật Mẫn',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'tra-my',
+    name: 'Trà My',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'hoang-tien',
+    name: 'Tiến',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'minh-nhat',
+    name: 'Minh Nhật',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'hong-anh',
+    name: 'Hồng Ánh',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'khanh-uyen',
+    name: 'Khánh Uyên',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thanh-thanh',
+    name: 'Thanh Thanh',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'thuy-duong',
+    name: 'Thùy Dương',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'anh-tien',
+    name: 'Hoàng Tiến',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'quynh-tram',
+    name: 'Quỳnh Trâm',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'duy-danh',
+    name: 'Danh',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
+    id: 'quoc-thong',
+    name: 'Quốc Thống',
+    salutation: 'cậu',
+    pronoun: 'tớ',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'anh-ngan',
+    name: 'Ánh Ngân',
+    salutation: 'cậu',
+    pronoun: 'tớ',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'my-duyen',
+    name: 'Mỹ Duyên',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'minh-duy',
+    name: 'Minh Duy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'van-duy',
+    name: 'Văn Duy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'dong-duy',
+    name: 'Đông Duy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'trung-duong',
+    name: 'Trùng Dương',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'quoc-duy',
+    name: 'Quốc Duy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'duy-duoc',
+    name: 'Quốc Duy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'cam-thu',
+    name: 'Cẩm Thư',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'nhat-huy',
+    name: 'Nhật Huy',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'nhat-bang',
+    name: 'Nhật Bằng',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'duy-tien',
+    name: 'Duy Tiến',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
+    id: 'quoc-manh',
+    name: 'Quốc Mạnh',
+    salutation: 'bạn',
+    pronoun: 'mình',
+    time: '09:00-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+]
 
 
+---oOo---
+
+E:\Code\graduation\src\main.js
+import './assets/css/main.css'
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(router)
+
+app.mount('#app')
 
 
+---oOo---
 
-------------------------------------------------------------------------------------------------
+E:\Code\graduation\src\router\index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import { useGuest } from '@/composables/useGuest'
 
-Giao diện trang LetterPage.vue hiện tại đang chứa 5 components chính.
+import IntroPage from '../views/IntroPage.vue'
+import NoInfoPage from '../views/NoInfoPage.vue'
+import NotFound from '../views/NotFoundPage.vue'
 
-Tuy nhiên kiến trúc này tôi cảm thấy nó đang bị nặng cho 1 components quá, nên tôi muốn thay vì:
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
 
-<section class="screen-section screen-section--center">
-    <InvitationLetterComp />
-</section>
+  routes: [
+    {
+      path: '/',
+      name: 'intro',
+      component: IntroPage,
+    },
 
-thì sẽ tách components ra thành nhiều components con và điền trực tiến vào vào Page luôn thay vì phải qua component trung giang:
+    {
+      path: '/letter',
+      name: 'letter',
+      component: () => import('../views/LetterPage.vue'),
+    },
 
-<section class="screen-section screen-section--center">
-    <Comp1 />
-    <Comp2 />
-    <Comp3 />
-    ...
-</section>
+    {
+      path: '/collection',
+      name: 'collection',
+      component: () => import('../views/CollectionPage.vue'),
+    },
 
-Biết rằng tôi muốn các components sẽ tự nội sinh (tự gọi hàm và hiển thị dữ liệu từ chính trong component ko cần truyền từ Page hay từ component Cha vào). Ví dụ: invitation-title sẽ tự gọi event.title để lấy dữ liệu và hiển thị chứ ko cần truyền lên (chỉ cần lấy và hiển thị lên việc xác thực dữ liệu và kiểm tra dữ liệu đã được xử lí ở nơi khác).
+    {
+      path: '/upload',
+      name: 'upload',
+      component: () => import('../views/UploadPage.vue'),
+    },
 
-Giữ nguyên giao diện hiện tại không được thay đổi bất cứ phần nào. Chỉ thực hiên xoá component thành phần trực tiếp hiện tại. Tách nhỏ nó ra thành các component con và trực thuộc thẳng vào page.
+    {
+      path: '/album',
+      name: 'album',
+      component: () => import('../views/AlbumPage.vue'),
+    },
 
-Các file components mới được tạo ở: src\components\letter
+    {
+      path: '/no-info',
+      name: 'no-info',
+      component: NoInfoPage,
+    },
 
-Bây giờ thực hiện đọc component src\components\InvitationLetterComp.vue và tách nó ra thành các thành phần nhỏ (trả các file thành phần hoàn chỉnh). Đồng thời cung cấp lại code của phần screen-section mới và code import Các thành phần mới.
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFound,
+    },
+  ],
+})
 
-LetterTitleComp.vue — Tiêu đề + ornament đầu
-LetterInvitationComp.vue — Lời mời + tên khách + nội dung mời
-LetterInfoComp.vue — Thời gian + địa điểm
-LetterClosingComp.vue — Lời kết + footer ornament
+const publicPages = ['no-info', 'not-found']
 
-Các file vue trả về theo thức tự template - script - style
+router.beforeEach((to) => {
+  // =====================================================
+  // PUBLIC PAGES
+  // =====================================================
 
-Kết quả đầu ra mong muốn:
+  if (publicPages.includes(to.name)) {
+    return true
+  }
+
+  const { setGuest, getGuestId, hasGuest } = useGuest()
+
+  // =====================================================
+  // 1. URL CÓ ?id
+  // =====================================================
+
+  const queryId = to.query.id
+
+  if (queryId) {
+    const guestId = String(queryId)
+
+    // ID không tồn tại trong data.js
+    if (!hasGuest(guestId)) {
+      return { name: 'no-info' }
+    }
+
+    // ID hợp lệ -> chỉ lưu ID
+    setGuest(guestId)
+
+    return true
+  }
+
+  // =====================================================
+  // 2. URL KHÔNG CÓ ?id
+  // Kiểm tra ID đã được lưu hay chưa
+  // =====================================================
+
+  const savedGuestId = getGuestId()
+
+  if (savedGuestId && hasGuest(savedGuestId)) {
+    return true
+  }
+
+  // =====================================================
+  // 3. KHÔNG CÓ ID TRÊN URL
+  // + KHÔNG CÓ ID HỢP LỆ ĐÃ LƯU
+  // -> NO INFO
+  // =====================================================
+
+  return { name: 'no-info' }
+})
+
+export default router
+
+
+---oOo---
+
+E:\Code\graduation\src\services\api.js
+import { useToast } from '@/composables/useToast'
+
+// Thay thế URL này bằng URL Web App sau khi bạn Deploy Google Apps Script (GAS)
+const GAS_WEB_APP_URL =
+  'https://script.google.com/macros/s/AKfycbzXQa-r8Ux1x8dt5cLPKsrfV0E65kcJOJNIXWbAmv8vq5iG5fweJn70xmsU258ewVj3VA/exec'
+
+export const apiService = {
+  async post(action, data = {}, showGlobalToast = true) {
+    const { showToast } = useToast()
+    try {
+      const response = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({ action, data }),
+      })
+
+      const result = await response.json()
+
+      // Nếu gọi API thất bại từ phía backend và được phép hiển thị toast
+      if (!result.success && showGlobalToast) {
+        showToast(result.message || 'Đã xảy ra lỗi hệ thống.', 'error')
+      }
+
+      return result
+    } catch (error) {
+      console.error('API Error:', error)
+      const errorMsg = 'Lỗi kết nối đến máy chủ: ' + error.toString()
+
+      if (showGlobalToast) {
+        showToast(errorMsg, 'error')
+      }
+
+      return {
+        success: false,
+        message: errorMsg,
+        data: null,
+      }
+    }
+  },
+
+  // 1. Dịch vụ 1: Xác nhận tham dự (RSVP) - Action: "submit-confirm"[cite: 1]
+  async submitRSVP(payload, showToastResult = true) {
+    const result = await this.post('submit-confirm', payload, false)
+    const { showToast } = useToast()
+
+    if (showToastResult) {
+      if (result.success) {
+        showToast(result.message || 'Xác nhận tham dự thành công!', 'success')
+      } else {
+        showToast(result.message || 'Xác nhận thất bại.', 'error')
+      }
+    }
+    return result
+  },
+
+  // 2. Dịch vụ 2: Tải ảnh lên Google Drive - Action: "upload-photo"[cite: 1]
+  async uploadPhoto(payload, showToastResult = true) {
+    const result = await this.post('upload-photo', payload, false)
+    const { showToast } = useToast()
+
+    if (showToastResult) {
+      if (result.success) {
+        showToast(result.message || 'Lưu ảnh thành công!', 'success')
+      } else {
+        showToast(result.message || 'Upload ảnh thất bại.', 'error')
+      }
+    }
+    return result
+  },
+
+  // 3. Dịch vụ 3: Xem danh sách ảnh từ Google Drive - Action: "view-photo"[cite: 1]
+  async viewPhotos(showToastResult = false) {
+    const result = await this.post('view-photo', {}, false)
+    const { showToast } = useToast()
+
+    if (showToastResult) {
+      if (result.success) {
+        showToast(result.message || 'Lấy danh sách ảnh thành công.', 'success')
+      } else {
+        showToast(result.message || 'Không thể lấy danh sách ảnh.', 'error')
+      }
+    }
+    return result
+  },
+}
+
+
+---oOo---
+
+E:\Code\graduation\src\views\AlbumPage.vue
+<template>
+  <h1>Empty page</h1>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\CollectionPage.vue
+<template>
+  <h1>Empty page</h1>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\IntroPage.vue
+<template>
+  <h1>Empty page</h1>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\LetterPage.vue
+<template>
+  <section class="screen-section screen-section--center">
+    <LetterTitleComp />
+    <LetterInvitationComp />
+    <LetterInfoComp />
+    <LetterClosingComp />
+  </section>
 
   <section class="screen-section screen-section--center">
-    <LetterTitleComp/>
-    <LetterInvitationComp/>
-    <LetterInfoComp/>
-    <LetterClosingComp/>
+    <NoteTitleComp />
+    <NoteBodyComp />
   </section>
+
+  <section class="screen-section screen-section--center">
+    <CollectionTitleComp />
+    <CollectionFrameComp />
+    <CollectionActionComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <ConfirmTitleComp />
+    <ConfirmFormComp />
+  </section>
+
+  <section class="screen-section screen-section--center">
+    <ThanksTitleComp />
+    <ThanksBodyComp />
+    <ThanksFooterComp />
+  </section>
+</template>
+
+<script setup>
+import LetterTitleComp from '@/components/letter/LetterTitleComp.vue'
+import LetterInvitationComp from '@/components/letter/LetterInvitationComp.vue'
+import LetterInfoComp from '@/components/letter/LetterInfoComp.vue'
+import LetterClosingComp from '@/components/letter/LetterClosingComp.vue'
+
+import NoteTitleComp from '@/components/letter/NoteTitleComp.vue'
+import NoteBodyComp from '@/components/letter/NoteBodyComp.vue'
+
+import CollectionTitleComp from '@/components/letter/CollectionTitleComp.vue'
+import CollectionFrameComp from '@/components/letter/CollectionFrameComp.vue'
+import CollectionActionComp from '@/components/letter/CollectionActionComp.vue'
+
+import ConfirmTitleComp from '@/components/letter/ConfirmTitleComp.vue'
+import ConfirmFormComp from '@/components/letter/ConfirmFormComp.vue'
+
+import ThanksTitleComp from '@/components/letter/ThanksTitleComp.vue'
+import ThanksBodyComp from '@/components/letter/ThanksBodyComp.vue'
+import ThanksFooterComp from '@/components/letter/ThanksFooterComp.vue'
+</script>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\NoInfoPage.vue
+<template>
+  <div class="warning-page">
+    <div class="warning-card">
+      <!-- Animated warning icon -->
+      <div class="warning-icon">
+        <div class="warning-glow"></div>
+
+        <div class="warning-triangle">
+          <span class="warning-symbol">!</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="warning-content">
+        <h1 class="uppercase">Không Nhận Diện Được Thư Mời</h1>
+
+        <p>
+          Hệ thống không nhận diện được thư mời.<br />
+          Vui lòng truy cập lại đúng đường dẫn thư mời đã nhận hoặc liên hệ
+          <span>Thanh Duy</span> để được hỗ trợ.
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+// Không cần logic JavaScript
+</script>
+
+<style scoped>
+/* ========================================
+   PAGE
+======================================== */
+
+.warning-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+
+  color: #fff;
+  text-align: center;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* ========================================
+   CARD (Đã chuyển sang nền rượu vang sâu)
+======================================== */
+
+.warning-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 42px 32px 36px;
+
+  box-sizing: border-box;
+
+  border-radius: 24px;
+
+  background: linear-gradient(145deg, rgba(69, 0, 5, 0.96), rgba(42, 0, 2, 0.94));
+
+  border: 1px solid rgba(239, 68, 68, 0.25);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(157, 0, 9, 0.15);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ========================================
+   WARNING ICON
+======================================== */
+
+.warning-icon {
+  position: relative;
+
+  width: 96px;
+  height: 96px;
+
+  margin: 0 auto 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glow phía sau icon */
+
+.warning-glow {
+  position: absolute;
+
+  width: 74px;
+  height: 74px;
+
+  border-radius: 50%;
+
+  background: rgba(239, 68, 68, 0.18);
+
+  filter: blur(18px);
+
+  animation: warningPulse 1.8s ease-in-out infinite;
+}
+
+/* Tam giác cảnh báo */
+
+.warning-triangle {
+  position: relative;
+
+  width: 68px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+
+  background: linear-gradient(145deg, #f87171, #dc2626 55%, #991b1b);
+
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5)) drop-shadow(0 8px 15px rgba(0, 0, 0, 0.35));
+
+  animation: warningFloat 2s ease-in-out infinite;
+}
+
+/* Viền sáng bên trong */
+
+.warning-triangle::before {
+  content: '';
+
+  position: absolute;
+
+  inset: 5px;
+
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+
+  background: #450005;
+}
+
+/* Dấu ! */
+
+.warning-symbol {
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 10px;
+
+  color: #fecaca;
+
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 900;
+
+  text-shadow: 0 0 8px rgba(254, 202, 202, 0.7);
+
+  animation: warningBlink 1.2s ease-in-out infinite;
+}
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.warning-content {
+  position: relative;
+  z-index: 2;
+}
+
+.warning-content h1 {
+  margin: 0 0 16px;
+
+  color: #fca5a5;
+
+  font-size: 23px;
+  line-height: 1.3;
+  font-weight: 700;
+
+  text-shadow: 0 0 20px rgba(248, 113, 113, 0.18);
+}
+
+.warning-content p {
+  margin: 0;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+  line-height: 1.8;
+
+  font-weight: 400;
+}
+
+.warning-content p span {
+  color: #fca5a5;
+  font-weight: 700;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+/* Glow đập nhẹ */
+
+@keyframes warningPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Icon nhấp nhô */
+
+@keyframes warningFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+}
+
+/* Dấu ! nhấp nháy */
+
+@keyframes warningBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+  .warning-page {
+    padding: 20px;
+  }
+
+  .warning-card {
+    padding: 36px 24px 32px;
+    border-radius: 20px;
+  }
+
+  .warning-icon {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 24px;
+  }
+
+  .warning-triangle {
+    width: 62px;
+    height: 57px;
+  }
+
+  .warning-symbol {
+    font-size: 30px;
+  }
+
+  .warning-content h1 {
+    font-size: 21px;
+  }
+
+  .warning-content p {
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+}
+
+/* ========================================
+   REDUCE MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .warning-glow,
+  .warning-triangle,
+  .warning-symbol {
+    animation: none;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\NotFoundPage.vue
+<template>
+  <div class="warning-page">
+    <div class="warning-card">
+      <!-- Animated warning icon -->
+      <div class="warning-icon">
+        <div class="warning-glow"></div>
+
+        <div class="warning-triangle">
+          <span class="warning-symbol">!</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="warning-content">
+        <h1 class="uppercase">Trang không tồn tại</h1>
+
+        <p>
+          Hệ thống không nhận diện trang đích.<br />
+          Vui lòng truy cập lại đúng đường dẫn thư mời đã nhận hoặc liên hệ
+          <span>Thanh Duy</span> để được hỗ trợ.
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+// Không cần logic JavaScript
+</script>
+
+<style scoped>
+/* ========================================
+   PAGE
+======================================== */
+
+.warning-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+
+  color: #fff;
+  text-align: center;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* ========================================
+   CARD (Đã chuyển sang nền rượu vang sâu)
+======================================== */
+
+.warning-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 42px 32px 36px;
+
+  box-sizing: border-box;
+
+  border-radius: 24px;
+
+  background: linear-gradient(145deg, rgba(69, 0, 5, 0.96), rgba(42, 0, 2, 0.94));
+
+  border: 1px solid rgba(239, 68, 68, 0.25);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(157, 0, 9, 0.15);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ========================================
+   WARNING ICON
+======================================== */
+
+.warning-icon {
+  position: relative;
+
+  width: 96px;
+  height: 96px;
+
+  margin: 0 auto 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glow phía sau icon */
+
+.warning-glow {
+  position: absolute;
+
+  width: 74px;
+  height: 74px;
+
+  border-radius: 50%;
+
+  background: rgba(239, 68, 68, 0.18);
+
+  filter: blur(18px);
+
+  animation: warningPulse 1.8s ease-in-out infinite;
+}
+
+/* Tam giác cảnh báo */
+
+.warning-triangle {
+  position: relative;
+
+  width: 68px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+
+  background: linear-gradient(145deg, #f87171, #dc2626 55%, #991b1b);
+
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5)) drop-shadow(0 8px 15px rgba(0, 0, 0, 0.35));
+
+  animation: warningFloat 2s ease-in-out infinite;
+}
+
+/* Viền sáng bên trong */
+
+.warning-triangle::before {
+  content: '';
+
+  position: absolute;
+
+  inset: 5px;
+
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+
+  background: #450005;
+}
+
+/* Dấu ! */
+
+.warning-symbol {
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 10px;
+
+  color: #fecaca;
+
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 900;
+
+  text-shadow: 0 0 8px rgba(254, 202, 202, 0.7);
+
+  animation: warningBlink 1.2s ease-in-out infinite;
+}
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.warning-content {
+  position: relative;
+  z-index: 2;
+}
+
+.warning-content h1 {
+  margin: 0 0 16px;
+
+  color: #fca5a5;
+
+  font-size: 23px;
+  line-height: 1.3;
+  font-weight: 700;
+
+  text-shadow: 0 0 20px rgba(248, 113, 113, 0.18);
+}
+
+.warning-content p {
+  margin: 0;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+  line-height: 1.8;
+
+  font-weight: 400;
+}
+
+.warning-content p span {
+  color: #fca5a5;
+  font-weight: 700;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+/* Glow đập nhẹ */
+
+@keyframes warningPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Icon nhấp nhô */
+
+@keyframes warningFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+}
+
+/* Dấu ! nhấp nháy */
+
+@keyframes warningBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+  .warning-page {
+    padding: 20px;
+  }
+
+  .warning-card {
+    padding: 36px 24px 32px;
+    border-radius: 20px;
+  }
+
+  .warning-icon {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 24px;
+  }
+
+  .warning-triangle {
+    width: 62px;
+    height: 57px;
+  }
+
+  .warning-symbol {
+    font-size: 30px;
+  }
+
+  .warning-content h1 {
+    font-size: 21px;
+  }
+
+  .warning-content p {
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+}
+
+/* ========================================
+   REDUCE MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .warning-glow,
+  .warning-triangle,
+  .warning-symbol {
+    animation: none;
+  }
+}
+</style>
+
+
+---oOo---
+
+E:\Code\graduation\src\views\UploadPage.vue
+<template>
+  <h1>Empty page</h1>
+</template>
+
+
+---oOo---
+
+E:\Code\graduation\index.html
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <meta name="theme-color" content="#040814" />
+
+    <meta name="color-scheme" content="dark" />
+
+    <meta name="description" content="Graduation Invitation — Thanh Duy" />
+
+    <link rel="icon" href="/favicon.ico" />
+
+    <title>Thanh Duy — Graduation Invitation</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+
+---
+
+E:\Code\graduation\postcss.config.js
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+
+---
+
+E:\Code\graduation\package.json
+
+{
+  "name": "graduation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write --experimental-cli src/"
+  },
+  "dependencies": {
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "prettier": "3.9.6",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.2.2",
+    "vite-plugin-vue-devtools": "^8.2.1"
+  },
+  "engines": {
+    "node": "^22.18.0 || >=24.12.0"
+  }
+}
+
+
+---
+
+E:\Code\graduation\tailwind.config.js
+
+/** @type {import('tailwindcss').Config} */
+
+export default {
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+
+  theme: {
+    extend: {
+      colors: {
+        navy: {
+          950: 'var(--color-navy-950)',
+          900: 'var(--color-navy-900)',
+          850: 'var(--color-navy-850)',
+          800: 'var(--color-navy-800)',
+          700: 'var(--color-navy-700)',
+          DEFAULT: 'var(--color-navy-800)',
+        },
+
+        wine: {
+          500: 'var(--color-wine-500)',
+          600: 'var(--color-wine-600)',
+          700: 'var(--color-wine-700)',
+          800: 'var(--color-wine-800)',
+          900: 'var(--color-wine-900)',
+          950: 'var(--color-wine-950)',
+          DEFAULT: 'var(--color-wine-700)',
+        },
+
+        slate: {
+          50: 'var(--color-slate-50)',
+          100: 'var(--color-slate-100)',
+          200: 'var(--color-slate-200)',
+          300: 'var(--color-slate-300)',
+          400: 'var(--color-slate-400)',
+          500: 'var(--color-slate-500)',
+          600: 'var(--color-slate-600)',
+          700: 'var(--color-slate-700)',
+          800: 'var(--color-slate-800)',
+          900: 'var(--color-slate-900)',
+        },
+
+        gold: {
+          100: 'var(--color-gold-100)',
+          200: 'var(--color-gold-200)',
+          300: 'var(--color-gold-300)',
+          400: 'var(--color-gold-400)',
+          500: 'var(--color-gold-500)',
+          600: 'var(--color-gold-600)',
+          700: 'var(--color-gold-700)',
+          800: 'var(--color-gold-800)',
+
+          metallic: 'var(--color-gold-100)',
+          light: 'var(--color-gold-light)',
+          muted: 'var(--color-gold-muted)',
+        },
+      },
+
+      fontFamily: {
+        sans: ['var(--font-sans)'],
+
+        serif: ['var(--font-serif)'],
+
+        script: ['var(--font-script)'],
+      },
+
+      backgroundImage: {
+        'gold-gradient': 'var(--gradient-gold)',
+        'gold-metallic': 'var(--gradient-gold-metallic)',
+        'navy-gradient': 'var(--gradient-navy)',
+      },
+
+      boxShadow: {
+        soft: 'var(--shadow-soft)',
+        deep: 'var(--shadow-deep)',
+        gold: 'var(--shadow-gold)',
+      },
+
+      borderRadius: {
+        'invitation-sm': 'var(--radius-sm)',
+        'invitation-md': 'var(--radius-md)',
+        'invitation-lg': 'var(--radius-lg)',
+        'invitation-xl': 'var(--radius-xl)',
+        'invitation-2xl': 'var(--radius-2xl)',
+      },
+
+      transitionTimingFunction: {
+        cinematic: 'var(--ease-smooth)',
+        expo: 'var(--ease-out-expo)',
+        smooth: 'var(--ease-out-quart)',
+      },
+
+      transitionDuration: {
+        cinematic: 'var(--duration-cinematic)',
+      },
+
+      minHeight: {
+        screen: '100svh',
+      },
+
+      height: {
+        screen: '100svh',
+      },
+    },
+  },
+
+  plugins: [],
+}
+
+---
+
+E:\Code\graduation\vercel.json
+
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

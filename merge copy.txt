@@ -25,6 +25,18 @@
 
 ---
 
+E:\Code\graduation\postcss.config.js
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+
+---
+
 E:\Code\graduation\package.json
 
 {
@@ -56,16 +68,6 @@ E:\Code\graduation\package.json
   }
 }
 
----
-
-E:\Code\graduation\postcss.config.js
-
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
 
 ---
 
@@ -86,6 +88,16 @@ export default {
           800: 'var(--color-navy-800)',
           700: 'var(--color-navy-700)',
           DEFAULT: 'var(--color-navy-800)',
+        },
+
+        wine: {
+          500: 'var(--color-wine-500)',
+          600: 'var(--color-wine-600)',
+          700: 'var(--color-wine-700)',
+          800: 'var(--color-wine-800)',
+          900: 'var(--color-wine-900)',
+          950: 'var(--color-wine-950)',
+          DEFAULT: 'var(--color-wine-700)',
         },
 
         slate: {
@@ -166,4 +178,17 @@ export default {
   },
 
   plugins: [],
+}
+
+---
+
+E:\Code\graduation\vercel.json
+
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

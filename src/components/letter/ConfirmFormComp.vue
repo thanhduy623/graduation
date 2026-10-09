@@ -5,7 +5,13 @@
     <div class="form-field">
       <label for="guest-name" class="form-label"> Người gửi </label>
 
-      <input id="guest-name" v-model="form.name" type="text" class="form-input" readonly />
+      <input
+        id="guest-name"
+        v-model="form.name"
+        type="text"
+        class="form-input capitalize"
+        readonly
+      />
     </div>
 
     <!-- PARTICIPATION -->
@@ -36,7 +42,7 @@
         class="form-textarea"
         rows="4"
         maxlength="500"
-        placeholder="Có gì muốn nhắn với Thanh Duy không?"
+        placeholder="Bạn có điều gì muốn nhắn nhủ để mình tiếp đón chu đáo hơn không?"
       ></textarea>
     </div>
 
@@ -63,26 +69,12 @@ const isSubmitting = ref(false)
 
 const participationOptions = [
   'Chắc chắn tham gia nhé!',
-  'Để mình sắp xếp lịch rồi báo bạn nha',
-  'Tiếc quá, hôm đó mình kẹt lịch mất rồi',
+  'Để sắp xếp rồi báo sau nha!',
+  'Hôm đó kẹt lịch mất rồi!',
 ]
 
-const capitalizeWords = (value = '') =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-
-const getGuestName = (guest) => {
-  if (!guest) return ''
-
-  const name = guest.show ? `${guest.salutation || ''} ${guest.name || ''}` : guest.name || ''
-
-  return capitalizeWords(name)
-}
-
 const form = reactive({
-  name: getGuestName(guest),
+  name: guest.name,
   participation: '',
   message: '',
 })
