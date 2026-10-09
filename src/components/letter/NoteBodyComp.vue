@@ -1,24 +1,22 @@
 <template>
   <div class="personal-note-content">
     <p>
-      Bốn năm trôi qua nhanh như một thoáng<br />
-      Mới ngày nào còn là tân sinh viên<br />
-      Mang theo bao điều chưa từng biết<br />
-      Và những ước mơ còn rất xanh
+      Nghĩ lại cũng thấy bốn năm đại học trôi qua nhanh thật. Mới ngày nào còn lạ lẫm với mọi thứ,
+      vậy mà giờ đã đến lúc mỗi đứa chuẩn bị đi một con đường riêng. Có nhiều chuyện lúc mới bắt đầu
+      chẳng ai trong chúng ta nghĩ mình sẽ đi được đến hôm nay.
     </p>
 
     <p>
-      Có những ngày chẳng hề dễ dàng<br />
-      Có những lần tưởng mình gục ngã<br />
-      Nhưng rồi vẫn kiên cường bước tiếp<br />
-      Để hôm nay vững vàng nhìn lại
+      Bốn năm này cũng đâu phải lúc nào cũng vui. Có những ngày mệt đến mức chỉ muốn bỏ cuộc, có
+      những chuyện chẳng biết kể cùng ai. Rồi cũng có người đến, có người đi, có người ở lại và có
+      người dần xa nhau. Mọi thứ cứ thế thay đổi, chẳng ai giữ được tất cả như lúc ban đầu.
     </p>
 
     <p>
-      Bốn năm khép lại bằng trưởng thành<br />
-      Thanh xuân ở lại cùng những người<br />
-      Một hành trình mới đang chờ phía trước<br />
-      Và mình sẵn sàng bước tiếp thôi
+      Cảm ơn vì tất cả vì đã đồng hành cùng mình trên chặng đường này. Cảm ơn những lần ngồi cạnh
+      nhau, những câu chuyện chẳng đầu chẳng cuối và cả những ngày bình thường mà sau này có lẽ sẽ
+      nhớ. Mai này mỗi đứa một nơi, mong rằng khi nhắc lại, chúng ta vẫn thấy vui vì đã từng có
+      nhau.
     </p>
   </div>
 </template>
@@ -36,17 +34,13 @@
 
 .personal-note-content p {
   margin: 0;
-
   color: var(--color-slate-300);
-
   font-family: var(--font-serif);
   font-size: 17px;
   font-weight: 400;
-
   letter-spacing: 0.05px;
   line-height: 1.85;
-
-  text-align: center;
+  text-align: justify;
 }
 
 .personal-note-content p + p {
@@ -59,8 +53,6 @@
 
 .personal-note-content p:last-child {
   color: var(--color-gold-light);
-
-  font-style: italic;
 }
 
 /* =========================================================
