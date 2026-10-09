@@ -47,12 +47,12 @@ BRAND UTILITIES
     background: var(--gradient-gold-metallic);
   }
 
-  .bg-navy-gradient {
-    background: var(--gradient-navy);
+  .bg-wine-gradient {
+    background: var(--gradient-wine);
   }
 
   .glass-dark {
-    background: rgba(5, 9, 19, 0.58);
+    background: rgba(42, 0, 2, 0.58);
     border: 1px solid var(--color-border);
 
     backdrop-filter: blur(16px);

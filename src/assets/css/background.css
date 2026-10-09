@@ -1,17 +1,15 @@
 /* ==========================================================================
-GRADUATION INVITATION — AMBIENT BACKGROUND
+GRADUATION INVITATION — AMBIENT BACKGROUND (CINEMATIC EDITION)
 ========================================================================== */
 
 /*
  * Background philosophy:
  *
- * - Không gây chú ý hơn content.
- * - Animation rất chậm.
- * - Không sử dụng JavaScript.
- * - Không sử dụng canvas.
- * - Không tạo quá nhiều DOM.
- * - Desktop có atmosphere.
- * - Mobile giảm intensity.
+ * - Không gây chú ý hơn content: Độ sáng (opacity) được kiểm soát nghiêm ngặt.
+ * - Animation rất chậm & hữu cơ (Organic): Di chuyển mềm mại như khói/chất lỏng.
+ * - Không sử dụng JavaScript/Canvas: Hiệu năng tối đa 60fps.
+ * - Hiệu ứng nghệ thuật (Cinematic): Bổ sung Film Grain (Nhiễu hạt) và Mix-blend-mode.
+ * - Tương tác cuộn (Scroll-driven): Tích hợp CSS animation-timeline cuộn mượt mà.
  */
 
 /* ==========================================================================
@@ -32,9 +30,52 @@ BACKGROUND ROOT
   pointer-events: none;
 
   background:
-    radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.035), transparent 32%),
-    radial-gradient(circle at 50% 85%, rgba(15, 45, 90, 0.28), transparent 42%),
-    linear-gradient(180deg, var(--color-navy-800) 0%, var(--color-navy-850) 52%, #02040a 100%);
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(114, 9, 7, 0.35), transparent 60%),
+    linear-gradient(
+      180deg,
+      var(--color-wine-800) 0%,
+      var(--color-wine-850, var(--color-wine-800)) 45%,
+      #0a0001 100%
+    );
+
+  background-size: 100% 120%; /* Mở rộng size để làm hiệu ứng cuộn */
+}
+
+/* 
+ * 1. CINEMATIC NOISE TEXTURE 
+ * Phủ một lớp nhiễu hạt siêu mờ, tạo cảm giác retro, nghệ thuật và chống banding gradient 
+ */
+.app-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10; /* Nằm trên các gradient nhưng dưới content */
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+SCROLL-DRIVEN INTERACTION (Tương tác khi cuộn trang)
+========================================================================== */
+
+/* Kỹ thuật CSS hiện đại: Background sẽ dịch chuyển nhẹ khi cuộn trang mà ko cần JS */
+@supports (animation-timeline: scroll()) {
+  .app-background {
+    animation: parallaxBackground linear;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes parallaxBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
 }
 
 /* ==========================================================================
@@ -44,288 +85,274 @@ AMBIENT ORBS
 .background-orb {
   position: absolute;
 
-  width: 32rem;
-  height: 32rem;
+  width: 35rem;
+  height: 35rem;
 
   border-radius: 50%;
 
   pointer-events: none;
 
-  filter: blur(80px);
+  filter: blur(90px);
 
-  opacity: 0.35;
+  /* 2. OPTICAL BLENDING: Giúp ánh sáng hòa quyện vào nhau nghệ thuật hơn */
+  mix-blend-mode: screen;
 
-  will-change: transform;
+  opacity: 0.3;
+
+  will-change: transform, opacity;
 
   transform: translate3d(0, 0, 0);
 }
 
 /* --------------------------------------------------------------------------
-GOLD
+GOLD ORB
 -------------------------------------------------------------------------- */
 
 .background-orb--gold {
-  top: -14rem;
-  left: 50%;
+  top: -10rem;
+  left: 40%;
 
   background: radial-gradient(
     circle,
-    rgba(212, 175, 55, 0.16) 0%,
-    rgba(212, 175, 55, 0.05) 35%,
-    transparent 72%
+    rgba(212, 175, 55, 0.18) 0%,
+    rgba(212, 175, 55, 0.06) 40%,
+    transparent 70%
   );
 
-  animation: backgroundGoldFloat 24s var(--ease-smooth) infinite alternate;
+  animation: organicGoldFloat 28s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
 }
 
 /* --------------------------------------------------------------------------
-BLUE
+WINE / BURGUNDY ORB
 -------------------------------------------------------------------------- */
 
-.background-orb--blue {
-  right: -18rem;
-  bottom: -12rem;
+.background-orb--wine {
+  right: -15rem;
+  bottom: -10rem;
 
   background: radial-gradient(
     circle,
-    rgba(30, 73, 130, 0.24) 0%,
-    rgba(16, 48, 92, 0.1) 40%,
-    transparent 72%
+    rgba(180, 20, 15, 0.25) 0%,
+    rgba(114, 9, 7, 0.12) 45%,
+    transparent 75%
   );
 
-  animation: backgroundBlueFloat 30s var(--ease-smooth) infinite alternate;
+  animation: organicWineFloat 32s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
 }
 
 /* --------------------------------------------------------------------------
-NAVY
+DEEP WINE ORB
 -------------------------------------------------------------------------- */
 
-.background-orb--navy {
-  top: 42%;
-  left: -22rem;
+.background-orb--deep-wine {
+  top: 35%;
+  left: -20rem;
 
-  width: 26rem;
-  height: 26rem;
+  width: 30rem;
+  height: 30rem;
 
   background: radial-gradient(
     circle,
-    rgba(20, 47, 88, 0.28) 0%,
-    rgba(10, 25, 55, 0.1) 45%,
-    transparent 72%
+    rgba(142, 12, 7, 0.25) 0%,
+    rgba(69, 0, 5, 0.1) 50%,
+    transparent 70%
   );
 
-  animation: backgroundNavyFloat 36s var(--ease-smooth) infinite alternate;
+  animation: organicDeepWineFloat 38s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
 }
 
 /* ==========================================================================
-PARTICLES
+PARTICLES (HẠT BỤI VÀNG CÓ ĐỘ SÂU 3D)
 ========================================================================== */
 
 .background-particles {
   position: absolute;
   inset: 0;
-
   pointer-events: none;
 }
 
 .background-particle {
   position: absolute;
-
-  width: 2px;
-  height: 2px;
-
   border-radius: 50%;
-
-  background: rgba(229, 193, 88, 0.5);
-
+  background: #f3e5ab; /* Vàng sáng */
   box-shadow:
-    0 0 6px rgba(212, 175, 55, 0.35),
-    0 0 12px rgba(212, 175, 55, 0.08);
-
+    0 0 8px rgba(212, 175, 55, 0.6),
+    0 0 16px rgba(212, 175, 55, 0.2);
   opacity: 0;
-
+  will-change: transform, opacity;
   animation:
-    particleFloat 10s var(--ease-smooth) infinite,
+    particleFloat 12s var(--ease-smooth) infinite,
     particlePulse 4s ease-in-out infinite;
 }
 
-/* Particle positions */
+/* 3. DEPTH OF FIELD (Mô phỏng ống kính máy ảnh) */
+/* Hạt nhỏ ở xa, nét */
+.background-particle--small {
+  width: 1.5px;
+  height: 1.5px;
+}
+/* Hạt vừa ở trung tâm */
+.background-particle--medium {
+  width: 2.5px;
+  height: 2.5px;
+  filter: blur(0.5px);
+}
+/* Hạt to ở sát ống kính, mờ (Bokeh) */
+.background-particle--large {
+  width: 4px;
+  height: 4px;
+  filter: blur(1.5px);
+}
 
+/* Positions & Delays */
 .background-particle--1 {
-  top: 18%;
-  left: 18%;
-
+  top: 15%;
+  left: 20%;
   animation-delay:
     -2s,
     -1s;
 }
-
 .background-particle--2 {
-  top: 28%;
-  right: 14%;
-
-  width: 1px;
-  height: 1px;
-
+  top: 35%;
+  right: 15%;
   animation-delay:
     -6s,
     -2s;
 }
-
 .background-particle--3 {
-  top: 62%;
-  left: 11%;
-
+  top: 65%;
+  left: 12%;
   animation-delay:
     -8s,
     -3s;
 }
-
 .background-particle--4 {
-  top: 74%;
-  right: 19%;
-
-  width: 1px;
-  height: 1px;
-
+  top: 75%;
+  right: 22%;
   animation-delay:
     -4s,
     -1s;
 }
-
 .background-particle--5 {
-  top: 44%;
-  right: 8%;
-
+  top: 45%;
+  right: 10%;
   animation-delay:
     -7s,
     -4s;
 }
-
 .background-particle--6 {
-  top: 82%;
-  left: 30%;
-
-  width: 1px;
-  height: 1px;
-
+  top: 85%;
+  left: 35%;
   animation-delay:
     -3s,
     -2s;
 }
 
 /* ==========================================================================
-VIGNETTE
+VIGNETTE (Breathing Effect)
 ========================================================================== */
 
 .background-vignette {
   position: absolute;
   inset: 0;
+  z-index: 5;
+  pointer-events: none;
 
   background: radial-gradient(
     ellipse at center,
-    transparent 35%,
-    rgba(2, 4, 10, 0.18) 70%,
-    rgba(2, 4, 10, 0.55) 100%
+    transparent 30%,
+    rgba(20, 0, 2, 0.25) 75%,
+    rgba(10, 0, 1, 0.75) 100%
   );
 
-  pointer-events: none;
+  /* Hiệu ứng thở nhẹ nhàng cho viền tối */
+  animation: vignetteBreathe 10s ease-in-out infinite alternate;
+}
+
+@keyframes vignetteBreathe {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
-ANIMATION — GOLD
+ORGANIC ANIMATIONS (Chuyển động hữu cơ phức hợp)
 ========================================================================== */
 
-@keyframes backgroundGoldFloat {
+/* Thêm rotate và scale kết hợp translate để tạo quỹ đạo hình elip/số 8 mềm mại */
+
+@keyframes organicGoldFloat {
   0% {
-    transform: translate3d(-50%, 0, 0) scale(0.92);
+    transform: translate3d(-10%, 0, 0) scale(0.9) rotate(0deg);
+    opacity: 0.25;
   }
-
   50% {
-    transform: translate3d(-44%, 4rem, 0) scale(1);
+    transform: translate3d(5%, 4rem, 0) scale(1.05) rotate(15deg);
+    opacity: 0.45;
   }
-
   100% {
-    transform: translate3d(-55%, 8rem, 0) scale(1.08);
+    transform: translate3d(-15%, 8rem, 0) scale(0.95) rotate(-5deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes organicWineFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-4rem, -3rem, 0) scale(1.1) rotate(-10deg);
+  }
+  100% {
+    transform: translate3d(3rem, -6rem, 0) scale(1) rotate(5deg);
+  }
+}
+
+@keyframes organicDeepWineFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(5rem, 2rem, 0) scale(0.9) rotate(10deg);
+  }
+  100% {
+    transform: translate3d(2rem, -4rem, 0) scale(1.08) rotate(-8deg);
   }
 }
 
 /* ==========================================================================
-ANIMATION — BLUE
-========================================================================== */
-
-@keyframes backgroundBlueFloat {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.95);
-  }
-
-  50% {
-    transform: translate3d(-3rem, -4rem, 0) scale(1.04);
-  }
-
-  100% {
-    transform: translate3d(2rem, -7rem, 0) scale(1.1);
-  }
-}
-
-/* ==========================================================================
-ANIMATION — NAVY
-========================================================================== */
-
-@keyframes backgroundNavyFloat {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.95);
-  }
-
-  50% {
-    transform: translate3d(4rem, -2rem, 0) scale(1.02);
-  }
-
-  100% {
-    transform: translate3d(7rem, 3rem, 0) scale(1.08);
-  }
-}
-
-/* ==========================================================================
-ANIMATION — PARTICLE FLOAT
+PARTICLE ANIMATIONS (Hạt sáng bay lên như tàn lửa/rượu champagne)
 ========================================================================== */
 
 @keyframes particleFloat {
   0% {
     opacity: 0;
-    transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 30px, 0) rotate(0deg);
   }
-
-  20% {
-    opacity: 0.45;
+  30% {
+    opacity: 0.6;
   }
-
-  50% {
-    opacity: 0.7;
+  70% {
+    opacity: 0.4;
   }
-
-  80% {
-    opacity: 0.3;
-  }
-
   100% {
     opacity: 0;
-    transform: translate3d(8px, -40px, 0);
+    transform: translate3d(15px, -60px, 0) rotate(45deg);
   }
 }
-
-/* ==========================================================================
-ANIMATION — PARTICLE PULSE
-========================================================================== */
 
 @keyframes particlePulse {
   0%,
   100% {
-    transform: scale(0.75);
+    transform: scale(0.8);
+    opacity: 0.5;
   }
-
   50% {
-    transform: scale(1.3);
+    transform: scale(1.2);
+    opacity: 1;
   }
 }
 
@@ -333,53 +360,52 @@ ANIMATION — PARTICLE PULSE
 MOBILE OPTIMIZATION
 ========================================================================== */
 
-/*
- * Trên mobile:
- *
- * - Giảm kích thước orb.
- * - Giảm blur.
- * - Giảm opacity.
- *
- * Mục tiêu là giữ atmosphere nhưng giảm GPU workload.
- */
-
+/* Trên mobile giữ hiệu năng bằng cách giảm cường độ và filter */
 @media (max-width: 767px) {
+  .app-background {
+    background-size: 100% 100%;
+  }
+
   .background-orb {
     filter: blur(60px);
     opacity: 0.25;
   }
 
-  .background-orb--gold {
-    width: 24rem;
-    height: 24rem;
+  .background-orb--gold,
+  .background-orb--wine {
+    width: 22rem;
+    height: 22rem;
   }
 
-  .background-orb--blue {
-    width: 24rem;
-    height: 24rem;
+  .background-orb--deep-wine {
+    width: 18rem;
+    height: 18rem;
   }
 
-  .background-orb--navy {
-    width: 20rem;
-    height: 20rem;
+  /* Giảm số lượng hạt trên mobile */
+  .background-particle:nth-child(even) {
+    display: none;
   }
 
-  .background-particle {
-    opacity: 0;
+  /* Noise có thể gây nặng máy cũ trên mobile, giảm opacity */
+  .app-background::before {
+    opacity: 0.15;
   }
 }
 
 /* ==========================================================================
-REDUCED MOTION
+REDUCED MOTION (A11y - Tôn trọng cài đặt người dùng)
 ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .background-orb,
-  .background-particle {
-    animation: none;
+  .background-particle,
+  .background-vignette,
+  .app-background {
+    animation: none !important;
   }
 
   .background-particle {
-    opacity: 0.3;
+    opacity: 0.2;
   }
 }
