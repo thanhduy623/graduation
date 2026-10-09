@@ -42,8 +42,6 @@
   padding: 24px;
   box-sizing: border-box;
 
-  background: radial-gradient(circle at 50% 40%, rgba(239, 68, 68, 0.08), transparent 35%), #020617;
-
   color: #fff;
   text-align: center;
   user-select: none;
@@ -51,7 +49,7 @@
 }
 
 /* ========================================
-   CARD
+   CARD (Đã chuyển sang nền rượu vang sâu)
 ======================================== */
 
 .warning-card {
@@ -64,13 +62,13 @@
 
   border-radius: 24px;
 
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.94));
+  background: linear-gradient(145deg, rgba(69, 0, 5, 0.96), rgba(42, 0, 2, 0.94));
 
   border: 1px solid rgba(239, 68, 68, 0.25);
 
   box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(239, 68, 68, 0.05);
+    0 25px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(157, 0, 9, 0.15);
 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -142,7 +140,7 @@
 
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 
-  background: #450a0a;
+  background: #450005;
 }
 
 /* Dấu ! */
