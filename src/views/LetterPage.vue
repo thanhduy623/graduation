@@ -1,38 +1,40 @@
 <template>
-  <!-- Màn hình Intro mở thư nằm đè lên trên cùng -->
-  <IntroOpenComp v-if="showIntro" @complete="handleIntroComplete" />
+  <div class="letter-page-container">
+    <!-- Màn hình Intro mở thư nằm đè lên trên cùng -->
+    <IntroOpenComp v-if="showIntro" @complete="handleIntroComplete" />
 
-  <!-- Nội dung toàn bộ thư mời bên dưới -->
-  <template v-if="!showIntro">
-    <section class="screen-section screen-section--center">
-      <LetterTitleComp />
-      <LetterInvitationComp />
-      <LetterInfoComp />
-      <LetterClosingComp />
-    </section>
+    <!-- Nội dung toàn bộ thư mời nằm sẵn ở phía dưới từ lúc tải trang -->
+    <div class="letter-content-wrapper">
+      <section class="screen-section screen-section--center">
+        <LetterTitleComp />
+        <LetterInvitationComp />
+        <LetterInfoComp />
+        <LetterClosingComp />
+      </section>
 
-    <section class="screen-section screen-section--center">
-      <NoteTitleComp />
-      <NoteBodyComp />
-    </section>
+      <section class="screen-section screen-section--center">
+        <NoteTitleComp />
+        <NoteBodyComp />
+      </section>
 
-    <section class="screen-section screen-section--center">
-      <CollectionTitleComp />
-      <CollectionFrameComp />
-      <CollectionActionComp />
-    </section>
+      <section class="screen-section screen-section--center">
+        <CollectionTitleComp />
+        <CollectionFrameComp />
+        <CollectionActionComp />
+      </section>
 
-    <section class="screen-section screen-section--center">
-      <ConfirmTitleComp />
-      <ConfirmFormComp />
-    </section>
+      <section class="screen-section screen-section--center">
+        <ConfirmTitleComp />
+        <ConfirmFormComp />
+      </section>
 
-    <section class="screen-section screen-section--center">
-      <ThanksTitleComp />
-      <ThanksBodyComp />
-      <ThanksFooterComp />
-    </section>
-  </template>
+      <section class="screen-section screen-section--center">
+        <ThanksTitleComp />
+        <ThanksBodyComp />
+        <ThanksFooterComp />
+      </section>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -65,3 +67,11 @@ const handleIntroComplete = () => {
   showIntro.value = false
 }
 </script>
+
+<style scoped>
+.letter-page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+</style>

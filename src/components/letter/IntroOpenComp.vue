@@ -1,5 +1,9 @@
 <template>
-  <div class="intro-viewport-container" @click="handleScreenClick">
+  <div
+    class="intro-viewport-container"
+    :class="{ 'is-fading-out': isFadingOut }"
+    @click="handleScreenClick"
+  >
     <!-- Comp 1: Video player nằm ở lớp dưới cùng -->
     <div class="intro-video-wrapper">
       <video
@@ -21,19 +25,24 @@
     </div>
 
     <!-- Comp 2: Lớp phủ ban đầu (Hiển thị khi chưa chạm lần 1 và video đã sẵn sàng) -->
-    <div v-if="isVideoReady && !hasStarted" class="intro-overlay prompt-overlay">
-      <div class="instruction-text">Chạm màn hình để mở thư</div>
-    </div>
+    <Transition name="fade">
+      <div v-if="isVideoReady && !hasStarted" class="intro-overlay prompt-overlay">
+        <div class="instruction-text">Chạm màn hình để mở thư</div>
+      </div>
+    </Transition>
 
-    <!-- Comp 3: Lớp phủ bỏ qua (Hiển thị khi video đang chạy) -->
-    <div v-if="hasStarted && isPlaying" class="intro-overlay skip-overlay">
-      <div class="instruction-text">Chạm màn hình để bỏ qua</div>
-    </div>
+    <!-- Comp 3: Lớp phủ bỏ qua (Hiển thị mượt mà sau 3 giây kể từ khi phát video) -->
+    <Transition name="fade">
+      <div v-if="showSkipPrompt && isPlaying" class="intro-overlay skip-overlay">
+        <div class="instruction-text">Chạm màn hình để bỏ qua</div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import musicSrc from '@/assets/music/Beo-dat-may-troi.mp3'
 
 const emit = defineEmits(['complete'])
 const videoRef = ref(null)
@@ -41,15 +50,23 @@ const videoRef = ref(null)
 const isVideoReady = ref(false)
 const hasStarted = ref(false)
 const isPlaying = ref(false)
+const showSkipPrompt = ref(false)
+const isFadingOut = ref(false)
 
-// Đảm bảo ép video tải frame đầu tiên ngay khi mounted
+let globalAudio = null
+
 onMounted(() => {
   if (videoRef.value) {
     videoRef.value.load()
-    // Đề phòng trường hợp sự kiện loadeddata đã bắn trước khi lắng nghe
     if (videoRef.value.readyState >= 2) {
       isVideoReady.value = true
     }
+  }
+
+  if (!globalAudio) {
+    globalAudio = new Audio(musicSrc)
+    globalAudio.preload = 'auto'
+    globalAudio.load()
   }
 })
 
@@ -57,26 +74,50 @@ const handleVideoLoaded = () => {
   isVideoReady.value = true
 }
 
+const triggerClose = () => {
+  if (isFadingOut.value) return
+  isPlaying.value = false
+  isFadingOut.value = true // Kích hoạt hiệu ứng CSS transition mờ dần
+
+  // Khớp thời gian với CSS transition (0.7s) trước khi gỡ khỏi DOM
+  setTimeout(() => {
+    emit('complete')
+  }, 700)
+}
+
 const handleScreenClick = () => {
   if (!hasStarted.value) {
-    // Lần chạm đầu tiên: Bắt đầu phát video và chuyển sang hiển thị Comp 3 thay cho Comp 2
+    // Chạm lần 1: Đổi trạng thái để Comp 2 ẩn đi ngay lập tức mượt mà
     hasStarted.value = true
     isPlaying.value = true
+
     if (videoRef.value) {
       videoRef.value.play().catch((err) => {
         console.error('Không thể phát video:', err)
       })
     }
-  } else if (isPlaying.value) {
-    // Lần chạm thứ hai (khi video đang chạy): Ẩn ngay lập tức và hiện toàn bộ letter
-    isPlaying.value = false
-    emit('complete')
+
+    if (globalAudio) {
+      globalAudio.play().catch((err) => {
+        console.error('Không thể phát audio:', err)
+      })
+    }
+
+    // Sau đúng 3 giây (3000ms), Comp 3 mới hiển thị lên.
+    // Trong khoảng 3 giây này, biến showSkipPrompt vẫn là false nên bấm vào sẽ không gọi triggerClose().
+    setTimeout(() => {
+      if (isPlaying.value) {
+        showSkipPrompt.value = true
+      }
+    }, 3000)
+  } else if (isPlaying.value && showSkipPrompt.value) {
+    // Chỉ cho phép bỏ qua (out video) khi Comp 3 đã thực sự xuất hiện trên màn hình
+    triggerClose()
   }
 }
 
 const handleVideoEnded = () => {
-  isPlaying.value = false
-  emit('complete')
+  triggerClose()
 }
 </script>
 
@@ -100,6 +141,14 @@ const handleVideoEnded = () => {
   user-select: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Khi kích hoạt mờ dần, lớp phủ intro sẽ trong suốt dần, để lộ phần letter đã load sẵn bên dưới */
+.intro-viewport-container.is-fading-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .intro-video-wrapper {
@@ -126,7 +175,6 @@ const handleVideoEnded = () => {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
   pointer-events: none;
 }
@@ -134,6 +182,7 @@ const handleVideoEnded = () => {
 .loading-overlay {
   background: rgba(10, 0, 1, 0.9);
   z-index: 40;
+  align-items: center;
 }
 
 .loading-spinner {
@@ -161,29 +210,39 @@ const handleVideoEnded = () => {
 
 .instruction-text {
   position: absolute;
-  top: 75%;
+  bottom: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   color: var(--color-gold-400, #d4af37);
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(14px, 3.8vw, 18px);
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  font-size: clamp(12px, 3.2vw, 15px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.12em;
   text-align: center;
-  text-shadow: 0 0 16px rgba(212, 175, 55, 0.5);
-  animation: textBlink 1.8s ease-in-out infinite;
+  text-shadow: 0 0 14px rgba(212, 175, 55, 0.45);
+  animation: textBlink 2s ease-in-out infinite;
   white-space: nowrap;
 }
 
 @keyframes textBlink {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.35;
   }
   50% {
     opacity: 1;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.6s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 @media (min-width: 768px) {
