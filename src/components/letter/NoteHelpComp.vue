@@ -2,7 +2,7 @@
   <div class="notes-container">
     <!-- Header: Tiêu đề & Nút gọi / định vị nhanh -->
     <div class="notes-header">
-      <h3 class="notes-title">Những điều <span>cần lưu ý</span></h3>
+      <h3 class="notes-title">Những điều lưu ý</h3>
       <div class="action-buttons">
         <a href="tel:0834828525" class="action-btn">
           <!-- Dòng 1: Icon -->
@@ -57,8 +57,8 @@
         <div class="note-content">
           <h4 class="note-heading">Địa điểm gặp mặt</h4>
           <p class="note-desc">
-            Địa điểm có thể thay đổi tùy theo tình hình thực tế, tụi mình chú ý cập nhật thông tin
-            thường xuyên nhé.
+            Địa điểm có thể thay đổi tùy theo tình hình thực tế, mình sẽ cập nhật thông tin thường
+            xuyên nhé.
           </p>
         </div>
       </div>
@@ -230,7 +230,7 @@
 .note-item {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: justify;
   gap: 12px;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
