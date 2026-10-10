@@ -6,7 +6,7 @@
 export const EVENT_BASE = {
   title: 'THANH DUY GRADUATION CEREMONY',
 
-  date: '01.11.2026',
+  date: '17.10.2026',
 
   tel: '0834 828 525',
 
