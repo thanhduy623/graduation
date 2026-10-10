@@ -2,7 +2,7 @@
   <div class="thanks-body">
     <p class="thanks-body-message">
       Cảm ơn vì đã dành một chút thời gian để đọc những dòng này và cùng mình nhìn lại một chặng
-      hành trình mà chính mình hoặc cũng có thẻ là bạn đã từng trải qua.
+      hành trình mà chính mình hoặc cũng có thể là bạn đã từng trải qua.
     </p>
 
     <p class="thanks-body-message thanks-body-message--secondary">
