@@ -26,7 +26,7 @@
           <span class="btn-desc">SĐT: 0834828525</span>
         </a>
 
-        <a href="#location" class="action-btn">
+        <a href="https://maps.app.goo.gl/mQKAc45gNLVYepK4A" class="action-btn">
           <!-- Dòng 1: Icon -->
           <svg
             class="btn-icon"
