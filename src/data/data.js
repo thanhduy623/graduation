@@ -626,4 +626,13 @@ export const GUEST_DATA = [
     zone: 'Sảnh C',
     show: false,
   },
+  {
+    id: 'thanh-dat',
+    name: 'Đạt',
+    salutation: 'anh',
+    pronoun: 'em',
+    time: '15h30:16h00',
+    zone: 'Sảnh C',
+    show: true,
+  },
 ]
