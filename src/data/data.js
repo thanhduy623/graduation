@@ -24,6 +24,15 @@ export const EVENT_BASE = {
 
 export const GUEST_DATA = [
   {
+    id: 'chi-hai',
+    name: 'Hai',
+    salutation: 'chị',
+    pronoun: 'em',
+    time: '15:30-16:30',
+    zone: 'Sảnh C',
+    show: true,
+  },
+  {
     id: 'anh-huy',
     name: 'Huy',
     salutation: 'anh',
