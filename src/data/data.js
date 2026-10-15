@@ -393,6 +393,15 @@ export const GUEST_DATA = [
     show: false,
   },
   {
+    id: 'anh-kiet',
+    name: 'Anh Kiệt',
+    salutation: 'em',
+    pronoun: 'anh',
+    time: '09:30-11:00',
+    zone: 'Sảnh C',
+    show: false,
+  },
+  {
     id: 'chi-hieu',
     name: 'Chí Hiếu',
     salutation: 'em',
